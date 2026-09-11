@@ -601,6 +601,44 @@
   }
   .pilot-note strong { color: var(--ink); }
 
+  /* ---------- faq ---------- */
+  .faq-list { display: flex; flex-direction: column; gap: 0.75rem; margin-top: 2rem; }
+  .faq-item {
+    border: 1px solid var(--line-soft);
+    border-radius: 0.9rem;
+    background: var(--card);
+    overflow: hidden;
+  }
+  .faq-item summary {
+    list-style: none;
+    cursor: pointer;
+    padding: 1.1rem 1.3rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: var(--ink);
+  }
+  .faq-item summary::-webkit-details-marker { display: none; }
+  .faq-item summary::after {
+    content: "+";
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 1.15rem;
+    color: var(--accent);
+    flex-shrink: 0;
+    width: 1.2em;
+    text-align: center;
+  }
+  .faq-item[open] summary::after { content: "−"; }
+  .faq-item[open] summary { border-bottom: 1px solid var(--line-soft); }
+  .faq-answer { padding: 0 1.3rem 1.2rem; margin: 0; color: var(--ink-soft); font-size: 0.9rem; line-height: 1.6; }
+  @media (prefers-reduced-motion: no-preference) {
+    .faq-item[open] .faq-answer { animation: faq-in 0.35s ease both; }
+  }
+  @keyframes faq-in { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
+
   /* ---------- cta / footer ---------- */
   .cta-block {
     text-align: center;
@@ -1141,7 +1179,7 @@
 
 <div class="wrap">
   <section>
-    <div class="eyebrow mono"><span class="count">01 / 07</span> — The problem</div>
+    <div class="eyebrow mono"><span class="count">01 / 08</span> — The problem</div>
     <h2 class="reveal word-reveal" style="font-size:clamp(1.6rem, 2.6vw + 0.7rem, 2.3rem); max-width: 22em;">Most studios run on memory and good intentions. Neither scales past a few bookings a month.</h2>
     <div class="problem-grid reveal">
       <div class="problem-item"><span class="mark">→</span><p><strong>Which spreadsheet has the real numbers?</strong> Three tabs say three different things about the same booking.</p></div>
@@ -1157,7 +1195,7 @@
 
 <div class="wrap">
   <section id="inside">
-    <div class="eyebrow mono"><span class="count">02 / 07</span> — How it flows</div>
+    <div class="eyebrow mono"><span class="count">02 / 08</span> — How it flows</div>
     <h2 class="reveal word-reveal" style="font-size:clamp(1.6rem, 2.6vw + 0.7rem, 2.3rem);">One booking, one thread, start to finish.</h2>
     <div class="flow reveal">
       <div class="flow-step">
@@ -1230,7 +1268,7 @@
 
 <div class="wrap">
   <section id="demo">
-    <div class="eyebrow mono"><span class="count">03 / 07</span> — Try it</div>
+    <div class="eyebrow mono"><span class="count">03 / 08</span> — Try it</div>
     <h2 class="reveal word-reveal" style="font-size:clamp(1.6rem, 2.6vw + 0.7rem, 2.3rem); max-width: 26em;">Not a description of the software. The software.</h2>
     <p class="frame-note" style="margin-top:0.6rem;">Four real screens, rebuilt at working scale on sample data. Drag a card, open a day, change a package, hover the chart — this is the actual interaction, not a screenshot of it.</p>
 
@@ -1449,7 +1487,7 @@
 
 <div class="wrap">
   <section>
-    <div class="eyebrow mono"><span class="count">04 / 07</span> — What's inside</div>
+    <div class="eyebrow mono"><span class="count">04 / 08</span> — What's inside</div>
     <h2 class="reveal word-reveal" style="font-size:clamp(1.6rem, 2.6vw + 0.7rem, 2.3rem);">Six modules. One shared record of every booking.</h2>
     <div class="feature-grid reveal">
 
@@ -1546,7 +1584,7 @@
 
 <div class="wrap">
   <section>
-    <div class="eyebrow mono"><span class="count">05 / 07</span> — Why studios switch</div>
+    <div class="eyebrow mono"><span class="count">05 / 08</span> — Why studios switch</div>
     <h2 class="reveal word-reveal" style="font-size:clamp(1.6rem, 2.6vw + 0.7rem, 2.3rem);">The same job, minus the guessing.</h2>
     <div class="compare reveal">
       <div class="compare-head"><span>WITHOUT SHINZO</span><span></span><span class="h-with">WITH SHINZO</span></div>
@@ -1563,7 +1601,7 @@
 
 <div class="wrap">
   <section>
-    <div class="eyebrow mono"><span class="count">06 / 07</span> — Built right</div>
+    <div class="eyebrow mono"><span class="count">06 / 08</span> — Built right</div>
     <h2 class="reveal word-reveal" style="font-size:clamp(1.6rem, 2.6vw + 0.7rem, 2.3rem);">Not a demo. Not a prototype.</h2>
     <div class="proof-grid reveal">
       <div class="proof-item"><h3>Strict data isolation</h3><p>Every studio's bookings, clients and money are walled off from every other studio at the database level.</p></div>
@@ -1577,9 +1615,44 @@
   </section>
 </div>
 
+<hr class="sprocket">
+
+<div class="wrap">
+  <section>
+    <div class="eyebrow mono"><span class="count">07 / 08</span> — Before you ask</div>
+    <h2 class="reveal word-reveal" style="font-size:clamp(1.6rem, 2.6vw + 0.7rem, 2.3rem); max-width: 26em;">The honest answers to what you're already wondering.</h2>
+    <div class="faq-list reveal">
+      <details class="faq-item">
+        <summary>What happens to the bookings I already have?</summary>
+        <p class="faq-answer">There's no migration day. A new enquiry starts in Shinzo from the moment you switch on; anything already underway gets entered whenever you next touch it. Most studios are fully on it inside two weeks without ever blocking out the calendar for a changeover.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Is my clients' data actually safe?</summary>
+        <p class="faq-answer">Every studio's bookings, clients and payment records are walled off from every other studio at the database level — not a setting that could be misconfigured, the database itself refuses the request. Nobody outside your team, including other studios on Shinzo, can reach your data.</p>
+      </details>
+      <details class="faq-item">
+        <summary>I already run everything through WhatsApp and Excel — why change?</summary>
+        <p class="faq-answer">You don't have to stop using WhatsApp to talk to people. Shinzo isn't asking you to change how you communicate — it replaces the part where the real numbers and dates end up spread across three places that quietly stop agreeing with each other. WhatsApp stays the conversation; Shinzo becomes the one place that's actually right.</p>
+      </details>
+      <details class="faq-item">
+        <summary>What if I want to leave later?</summary>
+        <p class="faq-answer">Export the whole studio's booking history, payments and client list as a CSV any time, straight from Settings — no support ticket, no waiting on a data request. It was always your data; Shinzo just keeps it organized while you're here.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Do I need to be technical to run this?</summary>
+        <p class="faq-answer">If you can use WhatsApp, you can run Shinzo day to day — it's built to be used standing at a venue on a phone, not from a desk with an IT person on call. Setting up your studio's own rates and packages once, at the start, takes about fifteen minutes.</p>
+      </details>
+      <details class="faq-item">
+        <summary>What does it cost?</summary>
+        <p class="faq-answer">Plans are matched to a studio's size rather than one-size-fits-all, so it's worth a straight conversation rather than a number here that may not fit you. Ask on the call — you'll get an answer, not a runaround.</p>
+      </details>
+    </div>
+  </section>
+</div>
+
 <div class="wrap">
   <section class="cta-block" id="contact">
-    <div class="eyebrow mono" style="justify-content:center;"><span class="count">07 / 07</span> — Get started</div>
+    <div class="eyebrow mono" style="justify-content:center;"><span class="count">08 / 08</span> — Get started</div>
     <h2>See it running on a real booking, not a slide.</h2>
     <p class="lede">Fifteen minutes is enough to walk through a proposal, a booking, and a payment end to end. Plans and pricing are matched to the studio — happy to talk through what fits.</p>
     <div class="contact-card glass reveal">
