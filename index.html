@@ -79,6 +79,13 @@
   @keyframes drift2 { 0%,100% { transform: translate(0,0) scale(1); } 50% { transform: translate(-7vw,5vw) scale(0.92); } }
   @keyframes drift3 { 0%,100% { transform: translate(0,0) scale(1); } 50% { transform: translate(4vw,-6vw) scale(1.08); } }
 
+  .galaxy-canvas {
+    position: fixed;
+    inset: 0;
+    z-index: -2;
+    pointer-events: none;
+  }
+
   /* ---------- Hirosaka watermark: Sentex + Japanese, fixed and faint ---------- */
   .hirosaka-mark {
     position: fixed;
@@ -601,6 +608,16 @@
   }
   .pilot-note strong { color: var(--ink); }
 
+  /* ---------- data & security spec grid ---------- */
+  .spec-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.9rem; margin-top: 2.25rem; }
+  .spec-card { border-radius: 1rem; padding: 1.3rem 1.4rem; }
+  .spec-label { font-family: "IBM Plex Mono", monospace; font-size: 0.68rem; letter-spacing: 0.12em; color: var(--accent); margin-bottom: 0.65rem; }
+  .spec-card p { font-size: 0.86rem; line-height: 1.6; color: var(--ink-soft); margin: 0; }
+  .spec-card em { font-style: normal; color: var(--ink); font-weight: 600; }
+  @media (max-width: 760px) {
+    .spec-grid { grid-template-columns: 1fr; }
+  }
+
   /* ---------- faq ---------- */
   .faq-list { display: flex; flex-direction: column; gap: 0.75rem; margin-top: 2rem; }
   .faq-item {
@@ -664,6 +681,8 @@
   .contact-card .row { display: flex; gap: 0.6rem; font-size: 0.92rem; align-items: baseline; }
   .contact-card .row b { color: var(--ink-faint); font-weight: 600; min-width: 4.4rem; font-size: 0.78rem; font-family: "IBM Plex Mono", monospace; }
   .contact-card .fill { color: var(--ink-faint); font-style: italic; }
+  .contact-buttons { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 0.4rem; }
+  .contact-buttons .btn { flex: 1; justify-content: center; min-width: 140px; }
   footer {
     text-align: center;
     padding: 2.5rem 0 3rem;
@@ -986,7 +1005,7 @@
     color: var(--ink-soft);
     opacity: 0;
     transform: translateY(10px);
-    transition: opacity 0.5s ease, transform 0.5s ease;
+    transition: opacity 0.85s ease, transform 0.85s ease;
     pointer-events: none;
   }
   .hook-line.is-active { opacity: 1; transform: translateY(0); color: var(--ink); }
@@ -995,7 +1014,7 @@
     display: flex; flex-direction: column; align-items: center; justify-content: center;
     gap: 1rem;
     opacity: 0;
-    transition: opacity 0.4s ease;
+    transition: opacity 0.7s ease;
     pointer-events: none;
   }
   .hook-reveal.is-active { opacity: 1; }
@@ -1005,7 +1024,7 @@
     border-radius: 50%;
     border: 1px solid var(--glass-border);
     opacity: 0;
-    transition: opacity 0.4s ease;
+    transition: opacity 0.7s ease;
   }
   .intro-ring.is-active { opacity: 1; }
   .intro-ring::before {
@@ -1032,8 +1051,8 @@
     overflow: hidden;
   }
   .intro-mark span { display: inline-block; opacity: 0; transform: translateY(110%); }
-  .hook-reveal.is-active .intro-eyebrow { animation: fade-in 0.5s ease forwards; }
-  .hook-reveal.is-active .intro-mark span { animation: letter-rise 0.7s cubic-bezier(.2,.9,.2,1) forwards; }
+  .hook-reveal.is-active .intro-eyebrow { animation: fade-in 0.7s ease forwards; }
+  .hook-reveal.is-active .intro-mark span { animation: letter-rise 1s cubic-bezier(.2,.9,.2,1) forwards; }
   .intro-sub {
     font-family: "IBM Plex Mono", monospace;
     font-size: 0.78rem;
@@ -1041,7 +1060,7 @@
     color: var(--ink-faint);
     opacity: 0;
   }
-  .hook-reveal.is-active .intro-sub { animation: fade-in 0.6s ease forwards 0.9s; }
+  .hook-reveal.is-active .intro-sub { animation: fade-in 0.8s ease forwards 1.3s; }
   .intro-skip {
     position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%);
     font-family: "IBM Plex Mono", monospace;
@@ -1049,13 +1068,13 @@
     letter-spacing: 0.1em;
     color: var(--ink-faint);
     opacity: 0;
-    transition: opacity 0.5s ease 1.6s;
+    transition: opacity 0.7s ease 2.2s;
   }
   .intro.is-armed .intro-skip { opacity: 0.7; }
   @keyframes letter-rise { to { opacity: 1; transform: translateY(0); } }
   @keyframes fade-in { to { opacity: 1; } }
   @keyframes spin { to { transform: rotate(360deg); } }
-  .intro.is-leaving { animation: intro-out 0.6s ease forwards; pointer-events: none; }
+  .intro.is-leaving { animation: intro-out 0.85s ease forwards; pointer-events: none; }
   @keyframes intro-out { to { opacity: 0; visibility: hidden; } }
   @media (prefers-reduced-motion: reduce) {
     .intro { display: none; }
@@ -1087,7 +1106,7 @@
     <div class="hook-reveal" id="hookReveal">
       <div class="intro-eyebrow">INTRODUCING</div>
       <div class="intro-mark">
-        <span style="animation-delay:.05s">S</span><span style="animation-delay:.10s">h</span><span style="animation-delay:.15s">i</span><span style="animation-delay:.20s">n</span><span style="animation-delay:.25s">z</span><span style="animation-delay:.30s">o</span>
+        <span style="animation-delay:.08s">S</span><span style="animation-delay:.17s">h</span><span style="animation-delay:.26s">i</span><span style="animation-delay:.35s">n</span><span style="animation-delay:.44s">z</span><span style="animation-delay:.53s">o</span>
       </div>
       <div class="intro-sub">STUDIO OPERATIONS SOFTWARE · BY HIROSAKA</div>
     </div>
@@ -1096,6 +1115,7 @@
 </div>
 
 <div class="ambient" aria-hidden="true"><span class="b1"></span><span class="b2"></span><span class="b3"></span></div>
+<canvas id="galaxyCanvas" class="galaxy-canvas" aria-hidden="true"></canvas>
 
 <div class="hirosaka-mark" aria-hidden="true">
   <span class="latin">HIROSAKA</span>
@@ -1179,7 +1199,7 @@
 
 <div class="wrap">
   <section>
-    <div class="eyebrow mono"><span class="count">01 / 08</span> — The problem</div>
+    <div class="eyebrow mono"><span class="count">01 / 09</span> — The problem</div>
     <h2 class="reveal word-reveal" style="font-size:clamp(1.6rem, 2.6vw + 0.7rem, 2.3rem); max-width: 22em;">Most studios run on memory and good intentions. Neither scales past a few bookings a month.</h2>
     <div class="problem-grid reveal">
       <div class="problem-item"><span class="mark">→</span><p><strong>Which spreadsheet has the real numbers?</strong> Three tabs say three different things about the same booking.</p></div>
@@ -1195,7 +1215,7 @@
 
 <div class="wrap">
   <section id="inside">
-    <div class="eyebrow mono"><span class="count">02 / 08</span> — How it flows</div>
+    <div class="eyebrow mono"><span class="count">02 / 09</span> — How it flows</div>
     <h2 class="reveal word-reveal" style="font-size:clamp(1.6rem, 2.6vw + 0.7rem, 2.3rem);">One booking, one thread, start to finish.</h2>
     <div class="flow reveal">
       <div class="flow-step">
@@ -1268,7 +1288,7 @@
 
 <div class="wrap">
   <section id="demo">
-    <div class="eyebrow mono"><span class="count">03 / 08</span> — Try it</div>
+    <div class="eyebrow mono"><span class="count">03 / 09</span> — Try it</div>
     <h2 class="reveal word-reveal" style="font-size:clamp(1.6rem, 2.6vw + 0.7rem, 2.3rem); max-width: 26em;">Not a description of the software. The software.</h2>
     <p class="frame-note" style="margin-top:0.6rem;">Four real screens, rebuilt at working scale on sample data. Drag a card, open a day, change a package, hover the chart — this is the actual interaction, not a screenshot of it.</p>
 
@@ -1487,7 +1507,7 @@
 
 <div class="wrap">
   <section>
-    <div class="eyebrow mono"><span class="count">04 / 08</span> — What's inside</div>
+    <div class="eyebrow mono"><span class="count">04 / 09</span> — What's inside</div>
     <h2 class="reveal word-reveal" style="font-size:clamp(1.6rem, 2.6vw + 0.7rem, 2.3rem);">Six modules. One shared record of every booking.</h2>
     <div class="feature-grid reveal">
 
@@ -1584,7 +1604,7 @@
 
 <div class="wrap">
   <section>
-    <div class="eyebrow mono"><span class="count">05 / 08</span> — Why studios switch</div>
+    <div class="eyebrow mono"><span class="count">05 / 09</span> — Why studios switch</div>
     <h2 class="reveal word-reveal" style="font-size:clamp(1.6rem, 2.6vw + 0.7rem, 2.3rem);">The same job, minus the guessing.</h2>
     <div class="compare reveal">
       <div class="compare-head"><span>WITHOUT SHINZO</span><span></span><span class="h-with">WITH SHINZO</span></div>
@@ -1593,6 +1613,7 @@
       <div class="compare-row"><span class="without">Crew hears about a reschedule secondhand, if at all</span><span class="arrow">→</span><span class="with">Assignment and change alerts reach them directly</span></div>
       <div class="compare-row"><span class="without">"Did they pay the deposit?" is a guess, not an answer</span><span class="arrow">→</span><span class="with">A running balance, milestone by milestone, always current</span></div>
       <div class="compare-row"><span class="without">One shared login, so everyone sees everything or nothing</span><span class="arrow">→</span><span class="with">A login and a permission level for each person on the team</span></div>
+      <div class="compare-row"><span class="without">A platform that wants to sit between you and your bank account</span><span class="arrow">→</span><span class="with">You collect payment however you already do — Shinzo only logs it, never touches it</span></div>
     </div>
   </section>
 </div>
@@ -1601,7 +1622,7 @@
 
 <div class="wrap">
   <section>
-    <div class="eyebrow mono"><span class="count">06 / 08</span> — Built right</div>
+    <div class="eyebrow mono"><span class="count">06 / 09</span> — Built right</div>
     <h2 class="reveal word-reveal" style="font-size:clamp(1.6rem, 2.6vw + 0.7rem, 2.3rem);">Not a demo. Not a prototype.</h2>
     <div class="proof-grid reveal">
       <div class="proof-item"><h3>Strict data isolation</h3><p>Every studio's bookings, clients and money are walled off from every other studio at the database level.</p></div>
@@ -1619,7 +1640,52 @@
 
 <div class="wrap">
   <section>
-    <div class="eyebrow mono"><span class="count">07 / 08</span> — Before you ask</div>
+    <div class="eyebrow mono"><span class="count">07 / 09</span> — Data &amp; security</div>
+    <h2 class="reveal word-reveal" style="font-size:clamp(1.6rem, 2.6vw + 0.7rem, 2.3rem); max-width: 30em;">The architecture underneath, in plain terms.</h2>
+    <p class="frame-note" style="margin-top:0.6rem;">Not a marketing gloss — this is what's actually running underneath, described accurately rather than dressed up.</p>
+
+    <div class="spec-grid reveal">
+      <div class="spec-card glass">
+        <div class="spec-label">TENANT ISOLATION</div>
+        <p>Every table enforces Postgres Row-Level Security — <em>forced</em>, not just enabled. A studio's own query cannot physically return another studio's rows, whether or not the application code remembers to filter.</p>
+      </div>
+      <div class="spec-card glass">
+        <div class="spec-label">DATA ACCESS PATH</div>
+        <p>The browser never holds a database credential. Every read and write passes through one server-side data-access layer — a single, auditable path into the database, not one per feature.</p>
+      </div>
+      <div class="spec-card glass">
+        <div class="spec-label">ENCRYPTION IN TRANSIT</div>
+        <p>Every request — the app, the API, the client portal — runs over TLS. A booking, a payment note, a client's phone number: none of it crosses the network in the clear.</p>
+      </div>
+      <div class="spec-card glass">
+        <div class="spec-label">PASSWORD STORAGE</div>
+        <p>Passwords are hashed inside Postgres itself with pgcrypto (bcrypt, work factor 12). The plaintext password exists nowhere except the instant someone types it.</p>
+      </div>
+      <div class="spec-card glass">
+        <div class="spec-label">SESSION REVOCATION</div>
+        <p>Sessions are signed JWTs, checked against a live revocation flag on every single request. Change a password or remove someone from the team, and every session they held dies immediately — not whenever it happens to expire.</p>
+      </div>
+      <div class="spec-card glass">
+        <div class="spec-label">RATE LIMITING</div>
+        <p>Login, signup and password-reset are rate-limited through Postgres, not in memory — a limit holds across every server instance, not just the one that happened to answer a given request.</p>
+      </div>
+      <div class="spec-card glass">
+        <div class="spec-label">DATA PORTABILITY</div>
+        <p>Every booking, payment and client record exports as a full CSV, any time, from Settings — not a support ticket, not a data-request form. It was always your data.</p>
+      </div>
+      <div class="spec-card glass">
+        <div class="spec-label">PAYMENTS</div>
+        <p>Shinzo never processes a payment or stores a card or bank number. What's logged is a record you typed — the money moves through whatever channel you already use.</p>
+      </div>
+    </div>
+  </section>
+</div>
+
+<hr class="sprocket">
+
+<div class="wrap">
+  <section>
+    <div class="eyebrow mono"><span class="count">08 / 09</span> — Before you ask</div>
     <h2 class="reveal word-reveal" style="font-size:clamp(1.6rem, 2.6vw + 0.7rem, 2.3rem); max-width: 26em;">The honest answers to what you're already wondering.</h2>
     <div class="faq-list reveal">
       <details class="faq-item">
@@ -1646,19 +1712,32 @@
         <summary>What does it cost?</summary>
         <p class="faq-answer">Plans are matched to a studio's size rather than one-size-fits-all, so it's worth a straight conversation rather than a number here that may not fit you. Ask on the call — you'll get an answer, not a runaround.</p>
       </details>
+      <details class="faq-item">
+        <summary>Do you process our payments, or take a cut?</summary>
+        <p class="faq-answer">No — and that's deliberate. Shinzo never sits between you and your client's money. Collect the deposit by bank transfer, UPI, cash, whatever you already use, then log it — Shinzo tracks the balance, it doesn't move the funds. No processing fee, no payout delay, no transaction data of yours passing through a system that isn't your own bank.</p>
+      </details>
     </div>
   </section>
 </div>
 
 <div class="wrap">
   <section class="cta-block" id="contact">
-    <div class="eyebrow mono" style="justify-content:center;"><span class="count">08 / 08</span> — Get started</div>
+    <div class="eyebrow mono" style="justify-content:center;"><span class="count">09 / 09</span> — Get started</div>
     <h2>See it running on a real booking, not a slide.</h2>
     <p class="lede">Fifteen minutes is enough to walk through a proposal, a booking, and a payment end to end. Plans and pricing are matched to the studio — happy to talk through what fits.</p>
     <div class="contact-card glass reveal">
       <div class="row"><b>WEB</b><span>shinzo.hirosaka.workers.dev</span></div>
-      <div class="row"><b>CONTACT</b><span class="fill">add your name / phone / email here</span></div>
       <div class="row"><b>STUDIO</b><span class="fill">Lord of the Weddings — live reference on request</span></div>
+      <div class="contact-buttons">
+        <a class="btn btn-primary" href="mailto:hirosaka.corpo@gmail.com?subject=Shinzo%20%E2%80%94%20I%27d%20like%20to%20see%20it">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
+          Email us
+        </a>
+        <a class="btn btn-primary" href="https://wa.me/918406972119?text=Hi%2C%20I%27d%20like%20to%20see%20a%20walkthrough%20of%20Shinzo" target="_blank" rel="noopener">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.5 8.5 0 0 1-12.5 7.5L3 20l1.1-5.3A8.5 8.5 0 1 1 21 11.5Z"/><path d="M8.5 10.5c.3 2.5 2.5 4.7 5 5" stroke-linecap="round"/></svg>
+          WhatsApp us
+        </a>
+      </div>
     </div>
   </section>
 </div>
@@ -2057,6 +2136,97 @@
 
   var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+  /* ---------- galaxy starfield ---------- */
+  (function galaxy() {
+    var canvas = document.getElementById("galaxyCanvas");
+    if (!canvas) return;
+    var ctx = canvas.getContext("2d");
+    if (!ctx) return;
+    var W = 0, H = 0;
+    var DPR = Math.min(window.devicePixelRatio || 1, 2);
+    var stars = [];
+    var shooting = null;
+
+    function resize() {
+      W = window.innerWidth; H = window.innerHeight;
+      canvas.width = Math.round(W * DPR);
+      canvas.height = Math.round(H * DPR);
+      canvas.style.width = W + "px";
+      canvas.style.height = H + "px";
+      ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+      var count = Math.round((W * H) / 9000);
+      count = Math.min(240, Math.max(70, count));
+      stars = [];
+      for (var i = 0; i < count; i++) {
+        stars.push({
+          x: Math.random() * W,
+          y: Math.random() * H,
+          r: Math.random() * 1.2 + 0.3,
+          baseAlpha: Math.random() * 0.5 + 0.22,
+          phase: Math.random() * Math.PI * 2,
+          speed: Math.random() * 0.0018 + 0.0006,
+          drift: (Math.random() - 0.5) * 0.012
+        });
+      }
+    }
+    resize();
+    var resizeTimer;
+    window.addEventListener("resize", function () {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(resize, 200);
+    });
+
+    function draw(t) {
+      ctx.clearRect(0, 0, W, H);
+      for (var i = 0; i < stars.length; i++) {
+        var s = stars[i];
+        var a = reduceMotion ? s.baseAlpha : s.baseAlpha + Math.sin(t * s.speed + s.phase) * 0.25;
+        ctx.globalAlpha = Math.max(0, Math.min(1, a));
+        ctx.fillStyle = "#ffffff";
+        ctx.beginPath();
+        ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+        ctx.fill();
+        if (!reduceMotion) {
+          s.x += s.drift;
+          if (s.x < -2) s.x = W + 2;
+          if (s.x > W + 2) s.x = -2;
+        }
+      }
+      if (!reduceMotion) {
+        if (!shooting && Math.random() < 0.0018) {
+          shooting = {
+            x: Math.random() * W * 0.55,
+            y: Math.random() * H * 0.3,
+            vx: 7 + Math.random() * 5,
+            vy: 3.2 + Math.random() * 2.2,
+            life: 1
+          };
+        }
+        if (shooting) {
+          ctx.globalAlpha = shooting.life;
+          var tailX = shooting.x - shooting.vx * 9;
+          var tailY = shooting.y - shooting.vy * 9;
+          var grad = ctx.createLinearGradient(shooting.x, shooting.y, tailX, tailY);
+          grad.addColorStop(0, "rgba(255,255,255,0.95)");
+          grad.addColorStop(1, "rgba(255,255,255,0)");
+          ctx.strokeStyle = grad;
+          ctx.lineWidth = 1.3;
+          ctx.beginPath();
+          ctx.moveTo(shooting.x, shooting.y);
+          ctx.lineTo(tailX, tailY);
+          ctx.stroke();
+          shooting.x += shooting.vx;
+          shooting.y += shooting.vy;
+          shooting.life -= 0.018;
+          if (shooting.life <= 0 || shooting.x > W + 20 || shooting.y > H + 20) shooting = null;
+        }
+      }
+      ctx.globalAlpha = 1;
+      if (!reduceMotion) requestAnimationFrame(draw);
+    }
+    requestAnimationFrame(draw);
+  })();
+
   /* ---------- opening sequence: hook beats -> reveal ---------- */
   var introEl = document.getElementById("intro");
   var heroHeadline = document.getElementById("heroHeadline");
@@ -2072,8 +2242,8 @@
         introGone = true;
         introTimers.forEach(function (t) { clearTimeout(t); });
         introEl.classList.add("is-leaving");
-        introTimers.push(setTimeout(function () { if (heroHeadline) heroHeadline.classList.add("is-in"); }, 300));
-        introTimers.push(setTimeout(function () { introEl.remove(); }, 650));
+        introTimers.push(setTimeout(function () { if (heroHeadline) heroHeadline.classList.add("is-in"); }, 400));
+        introTimers.push(setTimeout(function () { introEl.remove(); }, 850));
       }
       var beats = [
         document.getElementById("hook1"),
@@ -2087,17 +2257,17 @@
       introTimers.push(setTimeout(function () {
         if (beats[0]) beats[0].classList.remove("is-active");
         if (beats[1]) beats[1].classList.add("is-active");
-      }, 1500));
+      }, 2400));
       introTimers.push(setTimeout(function () {
         if (beats[1]) beats[1].classList.remove("is-active");
         if (beats[2]) beats[2].classList.add("is-active");
-      }, 3000));
+      }, 4800));
       introTimers.push(setTimeout(function () {
         if (beats[2]) beats[2].classList.remove("is-active");
         if (reveal) reveal.classList.add("is-active");
         if (ring) ring.classList.add("is-active");
-      }, 4500));
-      introTimers.push(setTimeout(endIntro, 6700));
+      }, 7200));
+      introTimers.push(setTimeout(endIntro, 10200));
       introEl.addEventListener("click", endIntro);
     }
   } else if (heroHeadline) {
