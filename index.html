@@ -1025,30 +1025,46 @@
   .typing-dots i:nth-child(2) { animation-delay: 0.15s; }
   .typing-dots i:nth-child(3) { animation-delay: 0.3s; }
 
-  /* opening A — assembly + stacking chat log */
-  .stack-bubbles {
+  /* opening A — assembly + a receding "echo stack" text reveal (AE-style
+     repeated-duplicate stack: a solid front copy over several offset,
+     outline-only, fading copies receding on a diagonal behind it) */
+  .stack-line {
     position: absolute; inset: 0;
-    display: flex; flex-direction: column; align-items: center; justify-content: center;
-    gap: 0.65rem;
+    display: flex; align-items: center; justify-content: center;
   }
-  .stack-item { opacity: 0; }
-  .hook-bubble {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.6rem;
-    max-width: 90vw;
-    padding: 0.85rem 1.4rem;
-    border-radius: 1.4rem;
-    background: var(--glass-bg-strong);
-    border: 1px solid var(--glass-border);
-    -webkit-backdrop-filter: blur(var(--glass-blur));
-    backdrop-filter: blur(var(--glass-blur));
+  .stack-word-wrap {
+    position: relative;
+    display: inline-block;
+    max-width: 88vw;
+    padding: 0.5em 0.6em;
+  }
+  .stack-echo {
+    position: absolute; top: 0; left: 0;
+    display: inline-block;
+    max-width: 88vw;
+    padding: 0.5em 0.6em;
     font-family: "Playfair Display", serif;
     font-style: italic;
-    font-weight: 500;
-    font-size: clamp(1.1rem, 3vw, 1.7rem);
-    line-height: 1.35;
+    font-weight: 600;
+    font-size: clamp(1.15rem, 3.2vw, 1.85rem);
+    line-height: 1.3;
+    color: transparent;
+    -webkit-text-stroke: 1px var(--amber);
+    text-stroke: 1px var(--amber);
+    transform: translate(calc(var(--i) * 4px), calc(var(--i) * -4px));
+    opacity: 0;
+    pointer-events: none;
+  }
+  .stack-front {
+    position: relative;
+    display: inline-block;
+    font-family: "Playfair Display", serif;
+    font-style: italic;
+    font-weight: 600;
+    font-size: clamp(1.15rem, 3.2vw, 1.85rem);
+    line-height: 1.3;
     color: var(--ink);
+    opacity: 0;
   }
 
   /* opening B — live text conversation */
@@ -1272,11 +1288,9 @@
         <div class="fly-chip" data-i="5"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
         <div class="fly-chip" data-i="6"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg></div>
       </div>
-      <div class="stack-bubbles" id="stackBubbles">
-        <div class="stack-item" id="stackA1"><span class="hook-bubble">Are you a wedding photographer?</span></div>
-        <div class="stack-item" id="stackA2"><span class="hook-bubble">Buried under a hundred <span class="cycle-word" id="cycleWordA">spreadsheets</span>?</span></div>
-        <div class="stack-item" id="stackA3"><span class="hook-bubble">Still ending up with conflicting dates?</span></div>
-      </div>
+      <div class="stack-line" id="stackLine1"></div>
+      <div class="stack-line" id="stackLine2"></div>
+      <div class="stack-line" id="stackLine3"></div>
     </div>
 
     <!-- OPENING B — a live text conversation, typed out -->
@@ -2519,21 +2533,46 @@
       t.to(chips, { opacity: 1, scale: 1, rotation: 0, x: 0, y: 0, duration: 1.05, ease: "back.out(1.6)", stagger: { each: 0.07, from: "random" } }, 0);
       t.to(chips, { opacity: 0, scale: 0.25, duration: 0.4, ease: "power2.in", stagger: { each: 0.03, from: "random" } }, "+=0.55");
 
-      var s1 = document.getElementById("stackA1"), s2 = document.getElementById("stackA2"), s3 = document.getElementById("stackA3");
-      var cycleWordA = document.getElementById("cycleWordA");
-      gsap.set([s1, s2, s3], { opacity: 0, y: 16, scale: 0.92 });
-
-      t.to(s1, { opacity: 1, y: 0, scale: 1, duration: 0.5, ease: "back.out(1.7)" }, "-=0.15");
-      t.to({}, { duration: 1.4 });
-      t.to(s2, { opacity: 1, y: 0, scale: 1, duration: 0.5, ease: "back.out(1.7)" });
-      t.to(s1, { opacity: 0.4, scale: 0.94, duration: 0.4 }, "<");
-      t.call(function () { cycleWords(cycleWordA, wordChoices, 90); });
-      t.to({}, { duration: 1.8 });
-      t.to(s3, { opacity: 1, y: 0, scale: 1, duration: 0.5, ease: "back.out(1.7)" });
-      t.to(s2, { opacity: 0.4, scale: 0.94, duration: 0.4 }, "<");
-      t.to({}, { duration: 1.5 });
-      t.to("#openA", { opacity: 0, duration: 0.35 }, "+=0.15");
+      stackEcho(t, document.getElementById("stackLine1"), "Are you a wedding photographer?", 1.5, "-=0.15");
+      stackEcho(t, document.getElementById("stackLine2"), "Buried under a hundred spreadsheets?", 1.8);
+      stackEcho(t, document.getElementById("stackLine3"), "Still ending up with conflicting dates?", 1.6);
+      t.to("#openA", { opacity: 0, duration: 0.3 }, "+=0.15");
       return t;
+    }
+
+    /** The AE-style "receding echo stack": N outline duplicates of the same
+     *  text, offset diagonally and fading with distance, snap in fast behind
+     *  a solid front copy — then the whole stack holds, then exits. */
+    function stackEcho(t, container, text, holdDuration, startPos) {
+      container.innerHTML = "";
+      var wrap = document.createElement("span");
+      wrap.className = "stack-word-wrap";
+      var echoCount = 7;
+      for (var i = echoCount; i >= 1; i--) {
+        var echo = document.createElement("span");
+        echo.className = "stack-echo";
+        echo.style.setProperty("--i", i);
+        echo.dataset.targetOpacity = Math.max(0.06, 0.48 - i * 0.055);
+        echo.textContent = text;
+        wrap.appendChild(echo);
+      }
+      var front = document.createElement("span");
+      front.className = "stack-front";
+      front.textContent = text;
+      wrap.appendChild(front);
+      container.appendChild(wrap);
+
+      var echoes = wrap.querySelectorAll(".stack-echo");
+      gsap.set(echoes, { opacity: 0, scale: 1.25 });
+      gsap.set(front, { opacity: 0, y: 10, scale: 0.94 });
+
+      t.to(echoes, {
+        opacity: function (i, target) { return parseFloat(target.getAttribute("data-target-opacity")); },
+        scale: 1, duration: 0.32, stagger: 0.03, ease: "power2.out"
+      }, startPos);
+      t.to(front, { opacity: 1, y: 0, scale: 1, duration: 0.4, ease: "back.out(1.9)" }, "<0.14");
+      t.to({}, { duration: holdDuration });
+      t.to(wrap, { opacity: 0, scale: 0.95, duration: 0.35, ease: "power2.in" });
     }
 
     function buildOpeningB() {
