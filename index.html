@@ -997,6 +997,38 @@
   .intro-stage { position: relative; width: 100%; max-width: 46rem; text-align: center; min-height: 17rem; display: flex; align-items: center; justify-content: center; }
   .intro-beat { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; }
 
+  /* a slow, continuous drifting light wash behind the whole sequence — keeps
+     the scene visibly alive through the quiet typewriter beats too, instead
+     of only lighting up once at the very end */
+  .intro-ambient-glow {
+    position: absolute;
+    inset: -25%;
+    z-index: -1;
+    background:
+      radial-gradient(closest-side at 22% 28%, color-mix(in oklch, var(--accent) 24%, transparent), transparent 62%),
+      radial-gradient(closest-side at 80% 74%, color-mix(in oklch, var(--amber) 20%, transparent), transparent 62%);
+    filter: blur(60px);
+    opacity: 0.55;
+    animation: intro-glow-drift 9s ease-in-out infinite;
+  }
+  @keyframes intro-glow-drift {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(3vw, -2.5vw) scale(1.1); }
+  }
+
+  /* a quick diagonal light-streak "cut" between beats */
+  .intro-sweep {
+    position: absolute;
+    top: -25%; bottom: -25%;
+    width: 24%;
+    left: 50%;
+    transform: translateX(-50%) skewX(-18deg);
+    background: linear-gradient(90deg, transparent, color-mix(in oklch, var(--ink) 18%, transparent) 45%, color-mix(in oklch, var(--accent) 30%, transparent) 50%, transparent);
+    opacity: 0;
+    pointer-events: none;
+    z-index: 3;
+  }
+
   /* beat 1 + 3 — bold typewriter problem statements, cursor and all */
   .type-line {
     max-width: 34rem;
@@ -1146,7 +1178,9 @@
 </style>
 
 <div class="intro" id="intro" aria-hidden="true">
+  <div class="intro-ambient-glow" aria-hidden="true"></div>
   <div class="intro-glow" id="introGlow"></div>
+  <div class="intro-sweep" id="introSweep" aria-hidden="true"></div>
   <div class="intro-stage">
 
     <!-- beat 1 + 3 — a typed-out problem statement, cursor and all -->
@@ -2358,6 +2392,7 @@
     var pill = document.getElementById("introPill");
     var letters = introMark.querySelectorAll("span");
     var hookReveal = document.getElementById("hookReveal");
+    var sweepEl = document.getElementById("introSweep");
 
     var beatType = document.getElementById("beatType");
     var typeText = document.getElementById("typeText");
@@ -2367,48 +2402,73 @@
     var tiltCard1 = document.getElementById("tiltCard1");
     var tiltCard2 = document.getElementById("tiltCard2");
 
+    // borrow the page's own starfield + drifting colour blobs for the
+    // intro's backdrop instead of a flat solid colour — moved back out to
+    // <body> in endIntro() so the rest of the page keeps them after
+    var galaxyCanvasEl = document.getElementById("galaxyCanvas");
+    var ambientEl = document.querySelector(".ambient");
+    if (galaxyCanvasEl) introEl.insertBefore(galaxyCanvasEl, introEl.firstChild);
+    if (ambientEl) introEl.insertBefore(ambientEl, introEl.firstChild);
+
     gsap.set([beatType, beatShot1, beatShot2, hookReveal], { autoAlpha: 0 });
     gsap.set(glow, { scale: 0.7, opacity: 0 });
     gsap.set(eyebrow, { opacity: 0 });
     gsap.set(pill, { opacity: 0, y: 10 });
-    gsap.set(letters, { opacity: 0, y: 26, filter: "blur(6px)" });
+    gsap.set(letters, { opacity: 0, filter: "blur(6px)" });
+    gsap.set(sweepEl, { opacity: 0, xPercent: -260 });
+
+    /** The quick diagonal light-streak "cut" used between every beat. */
+    function sweepTransition() {
+      var t = gsap.timeline();
+      t.set(sweepEl, { xPercent: -260, opacity: 0 });
+      t.to(sweepEl, { opacity: 0.85, duration: 0.1 });
+      t.to(sweepEl, { xPercent: 260, duration: 0.46, ease: "power2.in" }, "<");
+      t.to(sweepEl, { opacity: 0, duration: 0.15 }, "-=0.18");
+      return t;
+    }
 
     /** A bold headline typed out with a real blinking cursor — the "problem"
      *  beats. Reused twice with different copy. */
     function typedHeadline(text, msPerChar) {
       var t = gsap.timeline();
-      t.set(beatType, { autoAlpha: 0, y: 0 });
+      t.set(beatType, { autoAlpha: 0, y: 0, scale: 0.96 });
       t.call(function () { typeText.textContent = ""; typeCursor.style.opacity = 1; });
-      t.to(beatType, { autoAlpha: 1, duration: 0.25 });
+      t.to(beatType, { autoAlpha: 1, scale: 1, duration: 0.35, ease: "power2.out" });
       t.call(function () { typeChars(typeText, text, msPerChar); });
       t.to({}, { duration: (text.length * msPerChar) / 1000 + 0.5 });
-      t.to(beatType, { autoAlpha: 0, y: -12, duration: 0.3, ease: "power2.in" }, "+=0.05");
+      t.to(beatType, { autoAlpha: 0, y: -22, scale: 0.97, duration: 0.3, ease: "power2.in" }, "+=0.05");
       return t;
     }
 
     /** A real Shinzo screen, tilted in 3D space, flying in with a neon
-     *  corner glow — the "here's the fix" beats. */
+     *  corner glow, drifting gently in place while it holds — the
+     *  "here's the fix" beats. Mirrored so the two don't move alike. */
     function tiltCardBeat(beatEl, cardEl, fromSide) {
       var t = gsap.timeline();
       var dir = fromSide === "right" ? 1 : -1;
-      gsap.set(cardEl, { opacity: 0, scale: 0.86, y: 26, rotateY: dir * 22, rotateX: 6 });
+      gsap.set(cardEl, { opacity: 0, scale: 0.85, y: dir * -22, rotateY: dir * 24, rotateX: dir * -6, rotateZ: 0 });
       t.set(beatEl, { autoAlpha: 1 });
       t.to(cardEl, { opacity: 1, scale: 1, y: 0, rotateY: dir * -8, rotateX: 4, duration: 0.7, ease: "back.out(1.4)" });
-      t.to({}, { duration: 1.05 });
-      t.to(cardEl, { opacity: 0, scale: 0.92, y: -18, duration: 0.35, ease: "power2.in" });
+      t.to(cardEl, { y: "+=9", rotateZ: dir * 1.4, duration: 0.85, ease: "sine.inOut", yoyo: true, repeat: 1 });
+      t.to(cardEl, { opacity: 0, scale: 0.92, y: "-=18", duration: 0.35, ease: "power2.in" });
       t.set(beatEl, { autoAlpha: 0 });
       return t;
     }
 
     /** The brand lockup: a soft light bloom, then the Sentex wordmark
-     *  settling in with a shine sweep, then the tagline pill — no ring, no
-     *  decorative circles behind it. */
+     *  settling in from scattered offsets with a shine sweep, then the
+     *  tagline pill — no ring, no decorative circles behind it. */
     function logoReveal() {
       var t = gsap.timeline();
+      gsap.set(letters, {
+        x: function () { return gsap.utils.random(-18, 18); },
+        y: function () { return gsap.utils.random(14, 34); },
+        rotation: function () { return gsap.utils.random(-10, 10); }
+      });
       t.to(glow, { opacity: 0.5, scale: 1, duration: 1, ease: "power2.out" });
       t.set(hookReveal, { autoAlpha: 1 }, "<");
       t.to(eyebrow, { opacity: 1, duration: 0.4 }, "<0.1");
-      t.to(letters, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.7, ease: "back.out(1.6)", stagger: 0.06 }, "-=0.15");
+      t.to(letters, { opacity: 1, x: 0, y: 0, rotation: 0, filter: "blur(0px)", duration: 0.7, ease: "back.out(1.6)", stagger: 0.06 }, "-=0.15");
       t.call(function () { introMark.classList.add("is-shining"); }, null, "+=0.05");
       t.to(pill, { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" }, "-=0.35");
       t.to({}, { duration: 2 });
@@ -2421,6 +2481,8 @@
       if (introGone) return;
       introGone = true;
       tl.kill();
+      if (galaxyCanvasEl) document.body.appendChild(galaxyCanvasEl);
+      if (ambientEl) document.body.appendChild(ambientEl);
       introEl.classList.add("is-leaving");
       setTimeout(function () { if (heroHeadline) heroHeadline.classList.add("is-in"); }, 400);
       setTimeout(function () { introEl.remove(); }, 850);
@@ -2429,10 +2491,13 @@
     setTimeout(function () { introEl.classList.add("is-armed"); }, 400);
 
     tl.add(typedHeadline("Still buried in a hundred spreadsheets?", 32));
-    tl.add(tiltCardBeat(beatShot1, tiltCard1, "left"), "+=0.1");
-    tl.add(typedHeadline("Still double-booking your crew?", 32), "+=0.15");
-    tl.add(tiltCardBeat(beatShot2, tiltCard2, "right"), "+=0.1");
-    tl.add(logoReveal(), "+=0.15");
+    tl.add(sweepTransition(), "-=0.2");
+    tl.add(tiltCardBeat(beatShot1, tiltCard1, "left"), "-=0.1");
+    tl.add(typedHeadline("Still double-booking your crew?", 32), "+=0.1");
+    tl.add(sweepTransition(), "-=0.2");
+    tl.add(tiltCardBeat(beatShot2, tiltCard2, "right"), "-=0.1");
+    tl.add(sweepTransition(), "+=0.05");
+    tl.add(logoReveal(), "-=0.25");
   }
 
   /* ---------- word-stagger split (before the reveal observer attaches) ---------- */
