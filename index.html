@@ -994,207 +994,74 @@
     cursor: pointer;
     overflow: hidden;
   }
-  .fly-chips { position: absolute; inset: 0; pointer-events: none; }
-  .fly-chip {
-    position: absolute; top: 50%; left: 50%;
-    width: 44px; height: 44px;
-    display: flex; align-items: center; justify-content: center;
-    border-radius: 0.85rem;
-    background: var(--glass-bg-strong);
-    border: 1px solid var(--glass-border);
-    -webkit-backdrop-filter: blur(var(--glass-blur));
-    backdrop-filter: blur(var(--glass-blur));
-    color: var(--accent);
-    opacity: 0;
-  }
-  .intro-stage { position: relative; width: 100%; max-width: 46rem; text-align: center; min-height: 12rem; }
-  .opening { position: absolute; inset: 0; display: none; }
-  .opening.is-chosen { display: block; }
-  .cycle-word { display: inline-block; color: var(--amber); }
-  @keyframes dot-bounce {
-    0%, 60%, 100% { transform: translateY(0); opacity: 0.5; }
-    30% { transform: translateY(-4px); opacity: 1; }
-  }
-  .typing-dots { display: inline-flex; gap: 0.25rem; }
-  .typing-dots i {
-    width: 6px; height: 6px; border-radius: 50%;
-    background: var(--ink-faint);
-    display: inline-block;
-    animation: dot-bounce 1s ease-in-out infinite;
-  }
-  .typing-dots i:nth-child(2) { animation-delay: 0.15s; }
-  .typing-dots i:nth-child(3) { animation-delay: 0.3s; }
+  .intro-stage { position: relative; width: 100%; max-width: 46rem; text-align: center; min-height: 17rem; display: flex; align-items: center; justify-content: center; }
+  .intro-beat { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; }
 
-  /* opening A — assembly + a receding "echo stack" text reveal (AE-style
-     repeated-duplicate stack: a solid front copy over several offset,
-     outline-only, fading copies receding on a diagonal behind it) */
-  .stack-line {
-    position: absolute; inset: 0;
-    display: flex; align-items: center; justify-content: center;
-  }
-  .stack-word-wrap {
-    position: relative;
-    display: inline-block;
-    max-width: 88vw;
-    padding: 0.5em 0.6em;
-  }
-  .stack-echo {
-    position: absolute; top: 0; left: 0;
-    display: inline-block;
-    max-width: 88vw;
-    padding: 0.5em 0.6em;
-    font-family: "Playfair Display", serif;
-    font-style: italic;
-    font-weight: 600;
-    font-size: clamp(1.15rem, 3.2vw, 1.85rem);
-    line-height: 1.3;
-    color: transparent;
-    -webkit-text-stroke: 1px var(--amber);
-    text-stroke: 1px var(--amber);
-    transform: translate(calc(var(--i) * 4px), calc(var(--i) * -4px));
-    opacity: 0;
-    pointer-events: none;
-  }
-  .stack-front {
-    position: relative;
-    display: inline-block;
-    font-family: "Playfair Display", serif;
-    font-style: italic;
-    font-weight: 600;
-    font-size: clamp(1.15rem, 3.2vw, 1.85rem);
-    line-height: 1.3;
+  /* beat 1 + 3 — bold typewriter problem statements, cursor and all */
+  .type-line {
+    max-width: 34rem;
+    font-family: "Bricolage Grotesque", sans-serif;
+    font-weight: 700;
+    font-size: clamp(1.55rem, 5vw, 2.55rem);
+    line-height: 1.28;
+    letter-spacing: -0.01em;
     color: var(--ink);
-    opacity: 0;
   }
-
-  /* opening B — live text conversation */
-  .chat-panel {
-    position: absolute; inset: 0;
-    display: flex; flex-direction: column; align-items: center; justify-content: center;
-  }
-  .chat-header {
-    width: min(420px, 90vw);
-    display: flex; align-items: center; gap: 0.5rem;
-    padding: 0.7rem 1.1rem;
-    border-radius: 1rem 1rem 0 0;
-    background: var(--glass-bg-strong);
-    border: 1px solid var(--glass-border);
-    border-bottom: none;
-    -webkit-backdrop-filter: blur(var(--glass-blur));
-    backdrop-filter: blur(var(--glass-blur));
-    font-family: "IBM Plex Mono", monospace;
-    font-size: 0.72rem;
-    color: var(--ink-soft);
-  }
-  .chat-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--success); flex-shrink: 0; }
-  .chat-online { margin-left: auto; color: var(--ink-faint); font-size: 0.66rem; }
-  .chat-thread {
-    width: min(420px, 90vw);
-    min-height: 9rem;
-    display: flex; flex-direction: column; justify-content: center; gap: 0.6rem;
-    padding: 1.1rem 1.2rem;
-    border-radius: 0 0 1rem 1rem;
-    background: var(--glass-bg);
-    border: 1px solid var(--glass-border);
-    border-top: none;
-    -webkit-backdrop-filter: blur(var(--glass-blur));
-    backdrop-filter: blur(var(--glass-blur));
-  }
-  .chat-msg {
-    align-self: flex-start;
-    max-width: 100%;
-    padding: 0.6rem 0.9rem;
-    border-radius: 1rem;
-    background: var(--card-raised);
-    border: 1px solid var(--line-soft);
-    font-family: "Public Sans", sans-serif;
-    font-size: 0.92rem;
-    color: var(--ink);
-    opacity: 0;
-  }
-  .chat-typed { white-space: pre-wrap; }
-  .chat-cursor {
+  .type-cursor {
     display: inline-block;
+    margin-left: 0.04em;
     color: var(--accent);
-    font-weight: 600;
-    animation: cursor-blink 0.8s step-end infinite;
+    font-weight: 400;
+    animation: cursor-blink 0.85s step-end infinite;
   }
   @keyframes cursor-blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
-  .chat-meta {
-    display: block;
-    margin-top: 0.3rem;
-    font-family: "IBM Plex Mono", monospace;
-    font-size: 0.6rem;
-    color: var(--ink-faint);
-    text-align: right;
-  }
-  .chat-meta b { font-weight: 400; color: var(--ink-faint); transition: color 0.3s ease; }
-  .chat-meta b.is-read { color: var(--accent); }
-  .chat-typing { align-self: flex-start; padding: 0.6rem 0.9rem; border-radius: 1rem; background: var(--card-raised); border: 1px solid var(--line-soft); opacity: 0; }
 
-  /* opening C — sliding masked headline cycler */
-  .slide-stack { position: absolute; inset: 0; }
-  .slide-line {
-    position: absolute; inset: 0;
-    display: flex; align-items: center; justify-content: center;
-  }
-  .slide-mask { overflow: hidden; display: inline-block; max-width: 92vw; padding: 0.2em 0; }
-  .slide-text {
-    display: inline-block;
-    font-family: "Playfair Display", serif;
-    font-style: italic;
-    font-weight: 500;
-    font-size: clamp(1.5rem, 4.6vw, 2.7rem);
-    line-height: 1.3;
-    color: var(--ink);
-  }
-
-  /* finale extras */
-  .curtain-panel {
-    position: absolute; inset: 0;
-    width: 50%;
-    background: var(--paper-deep);
-    z-index: 5;
+  /* beat 2 + 4 — a real Shinzo screen, tilted in space with a neon corner glow */
+  .tilt-stage { perspective: 1400px; }
+  .tilt-card {
+    position: relative;
+    width: min(340px, 82vw);
+    border-radius: 1rem;
+    overflow: hidden;
+    background: var(--card);
+    box-shadow: 0 30px 60px -20px oklch(0 0 0 / 0.55);
     opacity: 0;
   }
-  .curtain-left { left: 0; }
-  .curtain-right { left: 50%; }
-  .particle-burst { position: absolute; inset: 0; pointer-events: none; }
-  .particle-dot {
-    position: absolute; top: 50%; left: 50%;
-    width: 4px; height: 4px; border-radius: 50%;
-    background: var(--accent);
-    opacity: 0;
+  .tilt-glow {
+    position: absolute;
+    inset: -22%;
+    z-index: -1;
+    border-radius: 1.4rem;
+    background:
+      radial-gradient(closest-side at 12% 8%, color-mix(in oklch, var(--success) 55%, transparent), transparent 62%),
+      radial-gradient(closest-side at 90% 96%, color-mix(in oklch, var(--accent) 60%, transparent), transparent 62%);
+    filter: blur(22px);
+    opacity: 0.8;
   }
+  .tilt-bar {
+    display: flex; align-items: center; gap: 0.35rem;
+    padding: 0.55rem 0.75rem;
+    background: var(--card-raised);
+    border-bottom: 1px solid var(--line-soft);
+  }
+  .tilt-bar-label { margin-left: 0.35rem; font-family: "IBM Plex Mono", monospace; font-size: 0.6rem; color: var(--ink-faint); }
+  .tilt-body { padding: 0.75rem 0.8rem; background: color-mix(in oklch, var(--ink) 4%, var(--paper)); }
+
+  /* shared brand reveal — no ring, no background circles; a controlled dose
+     of Sentex (kept deliberately smaller than the size that broke earlier)
+     carries the character instead */
   .hook-reveal {
     position: absolute; inset: 0;
     display: flex; flex-direction: column; align-items: center; justify-content: center;
-    gap: 1rem;
+    gap: 0.9rem;
     pointer-events: none;
   }
   .intro-glow {
     position: absolute;
-    width: 420px; height: 420px;
-    border-radius: 50%;
-    background: radial-gradient(circle, color-mix(in oklch, var(--accent) 35%, transparent) 0%, transparent 68%);
-    filter: blur(30px);
+    width: 640px; height: 640px;
+    background: radial-gradient(circle, color-mix(in oklch, var(--accent) 30%, transparent) 0%, transparent 66%);
+    filter: blur(50px);
     opacity: 0;
-  }
-  .intro-ring {
-    position: absolute;
-    width: 140px; height: 140px;
-    border-radius: 50%;
-    border: 1px solid var(--glass-border);
-    opacity: 0;
-  }
-  .intro-ring::before {
-    content: "";
-    position: absolute; inset: -1px;
-    border-radius: 50%;
-    border: 1.5px solid transparent;
-    border-top-color: var(--accent);
-    border-right-color: var(--amber);
-    animation: spin 1.4s linear infinite;
   }
   .intro-eyebrow {
     font-family: "IBM Plex Mono", monospace;
@@ -1205,11 +1072,11 @@
   }
   .intro-mark {
     position: relative;
-    display: flex; align-items: baseline; gap: 0.02em;
-    font-family: "Bricolage Grotesque", sans-serif;
-    font-weight: 800;
-    font-size: clamp(2.6rem, 9vw, 5.6rem);
-    letter-spacing: -0.01em;
+    display: flex; align-items: baseline; gap: 0.03em;
+    font-family: "Sentex", "Bricolage Grotesque", sans-serif;
+    font-weight: 700;
+    font-size: clamp(1.9rem, 5vw, 2.5rem);
+    letter-spacing: 0.03em;
     color: var(--ink);
     overflow: visible;
   }
@@ -1231,11 +1098,18 @@
     70% { opacity: 0.5; }
     100% { opacity: 0; background-position: -40% 0; }
   }
-  .intro-sub {
+  .intro-pill {
+    display: inline-flex; align-items: center; gap: 0.45rem;
+    padding: 0.45rem 1rem;
+    border-radius: 999px;
+    background: var(--glass-bg-strong);
+    border: 1px solid var(--glass-border);
+    -webkit-backdrop-filter: blur(var(--glass-blur));
+    backdrop-filter: blur(var(--glass-blur));
     font-family: "IBM Plex Mono", monospace;
-    font-size: 0.78rem;
-    letter-spacing: 0.15em;
-    color: var(--ink-faint);
+    font-size: 0.66rem;
+    letter-spacing: 0.14em;
+    color: var(--ink-soft);
     opacity: 0;
   }
   .intro-skip {
@@ -1248,7 +1122,6 @@
     transition: opacity 0.7s ease;
   }
   .intro.is-armed .intro-skip { opacity: 0.7; }
-  @keyframes spin { to { transform: rotate(360deg); } }
   .intro.is-leaving { animation: intro-out 0.85s cubic-bezier(.4,0,.2,1) forwards; pointer-events: none; }
   @keyframes intro-out { to { opacity: 0; visibility: hidden; } }
   @media (prefers-reduced-motion: reduce) {
@@ -1274,43 +1147,50 @@
 
 <div class="intro" id="intro" aria-hidden="true">
   <div class="intro-glow" id="introGlow"></div>
-  <div class="intro-ring" id="introRing"></div>
   <div class="intro-stage">
 
-    <!-- OPENING A — flying assembly + a stacking chat log -->
-    <div class="opening" id="openA">
-      <div class="fly-chips" id="flyChips" aria-hidden="true">
-        <div class="fly-chip" data-i="0"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 3v3M16 3v3"/></svg></div>
-        <div class="fly-chip" data-i="1"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6"/></svg></div>
-        <div class="fly-chip" data-i="2"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="6" height="16" rx="1"/><rect x="10.5" y="8" width="6" height="12" rx="1"/><rect x="18" y="12" width="3" height="8" rx="1"/></svg></div>
-        <div class="fly-chip" data-i="3"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h9l4 4v14H6z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></svg></div>
-        <div class="fly-chip" data-i="4"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="3"/><circle cx="17" cy="8" r="3"/><path d="M2 20c0-3 2.5-5 6-5s6 2 6 5M13 20c0-2.7 2-5 5-5s4 1.8 4 5"/></svg></div>
-        <div class="fly-chip" data-i="5"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
-        <div class="fly-chip" data-i="6"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg></div>
-      </div>
-      <div class="stack-line" id="stackLine1"></div>
-      <div class="stack-line" id="stackLine2"></div>
-      <div class="stack-line" id="stackLine3"></div>
+    <!-- beat 1 + 3 — a typed-out problem statement, cursor and all -->
+    <div class="intro-beat" id="beatType">
+      <div class="type-line"><span class="type-text" id="typeText"></span><span class="type-cursor" id="typeCursor">|</span></div>
     </div>
 
-    <!-- OPENING B — a live text conversation, typed out -->
-    <div class="opening" id="openB">
-      <div class="chat-panel">
-        <div class="chat-header"><span class="chat-dot"></span>Lord of the Weddings<span class="chat-online">online</span></div>
-        <div class="chat-thread">
-          <div class="chat-msg" id="chatMsg1"><span class="chat-typed" id="chatTyped1"></span><span class="chat-cursor" id="chatCursor1">|</span><span class="chat-meta" id="chatMeta1">2:14 PM <b id="chatTicks1">✓✓</b></span></div>
-          <div class="chat-typing" id="chatTypingRow"><span class="typing-dots"><i></i><i></i><i></i></span></div>
-          <div class="chat-msg" id="chatMsg2"><span class="chat-typed" id="chatTyped2"></span><span class="chat-cursor" id="chatCursor2">|</span><span class="chat-meta" id="chatMeta2">2:15 PM <b id="chatTicks2">✓✓</b></span></div>
+    <!-- beat 2 — the ledger, tilted, glowing at its corners -->
+    <div class="intro-beat" id="beatShot1">
+      <div class="tilt-stage">
+        <div class="tilt-card" id="tiltCard1">
+          <div class="tilt-glow"></div>
+          <div class="tilt-bar"><span class="hs-dot"></span><span class="hs-dot"></span><span class="hs-dot"></span><span class="tilt-bar-label">Ledger — Sharma Wedding</span></div>
+          <div class="tilt-body">
+            <div class="hs-card">
+              <div class="hs-card-top"><b>Venue advance</b></div>
+              <div class="hs-chips"><span>Paid manually</span><span>Bank transfer</span></div>
+            </div>
+            <div class="hs-card">
+              <div class="hs-card-top"><b>Album balance</b></div>
+              <div class="hs-chips"><span>Due 12 Mar</span></div>
+            </div>
+            <div class="hs-foot">Outstanding · ₹42,000</div>
+          </div>
         </div>
       </div>
     </div>
 
-    <!-- OPENING C — sliding, masked headline cycler -->
-    <div class="opening" id="openC">
-      <div class="slide-stack">
-        <div class="slide-line" id="slideLine1"><span class="slide-mask"><span class="slide-text">Are you a wedding photographer?</span></span></div>
-        <div class="slide-line" id="slideLine2"><span class="slide-mask"><span class="slide-text">Buried under a hundred <span class="cycle-word" id="cycleWordC">spreadsheets</span>?</span></span></div>
-        <div class="slide-line" id="slideLine3"><span class="slide-mask"><span class="slide-text">Still ending up with conflicting dates?</span></span></div>
+    <!-- beat 4 — the crew schedule, tilted the other way -->
+    <div class="intro-beat" id="beatShot2">
+      <div class="tilt-stage">
+        <div class="tilt-card" id="tiltCard2">
+          <div class="tilt-glow"></div>
+          <div class="tilt-bar"><span class="hs-dot"></span><span class="hs-dot"></span><span class="hs-dot"></span><span class="tilt-bar-label">Shoot Schedule — 14 Feb</span></div>
+          <div class="tilt-body">
+            <div class="hs-card">
+              <div class="hs-card-top"><span class="hs-avatar" style="background:var(--accent)">RK</span><b>Rahul K. — Lead shooter</b></div>
+            </div>
+            <div class="hs-card">
+              <div class="hs-card-top"><span class="hs-avatar" style="background:var(--amber)">MS</span><b>Meera S. — Second shooter</b></div>
+            </div>
+            <div class="hs-foot">No conflicts detected</div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -1320,13 +1200,8 @@
       <div class="intro-mark" id="introMark">
         <span>S</span><span>h</span><span>i</span><span>n</span><span>z</span><span>o</span>
       </div>
-      <div class="intro-sub" id="introSub">STUDIO OPERATIONS SOFTWARE · BY HIROSAKA</div>
+      <div class="intro-pill" id="introPill">STUDIO OPERATIONS, AUTOMATED</div>
     </div>
-
-    <!-- finale-only extras -->
-    <div class="curtain-panel curtain-left" id="curtainLeft"></div>
-    <div class="curtain-panel curtain-right" id="curtainRight"></div>
-    <div class="particle-burst" id="particleBurst" aria-hidden="true"></div>
   </div>
   <div class="intro-skip" id="introSkip">TAP ANYWHERE TO SKIP</div>
 </div>
@@ -2445,7 +2320,9 @@
     requestAnimationFrame(draw);
   })();
 
-  /* ---------- opening sequence: one of 3 openings x one of 3 finales, chosen fresh each visit (GSAP) ---------- */
+  /* ---------- opening sequence: one deliberately-paced narrative, not a
+     random grab-bag — typed problem statements cut to tilted, glowing shots
+     of the real screens, landing on one clean logo reveal (GSAP) ---------- */
   var introEl = document.getElementById("intro");
   var heroHeadline = document.getElementById("heroHeadline");
   var hasGsap = typeof window.gsap !== "undefined";
@@ -2453,19 +2330,6 @@
   function skipStraightToHero() {
     if (introEl) introEl.remove();
     if (heroHeadline) heroHeadline.classList.add("is-in");
-  }
-
-  function pickVariant(list, storageKey) {
-    var choice = list[Math.floor(Math.random() * list.length)];
-    try {
-      var last = window.sessionStorage && sessionStorage.getItem(storageKey);
-      if (last && list.length > 1 && choice === last) {
-        var rest = list.filter(function (v) { return v !== last; });
-        choice = rest[Math.floor(Math.random() * rest.length)];
-      }
-      if (window.sessionStorage) sessionStorage.setItem(storageKey, choice);
-    } catch (e) {}
-    return choice;
   }
 
   function typeChars(el, text, msPerChar, onDone) {
@@ -2481,22 +2345,6 @@
     }, msPerChar);
   }
 
-  function cycleWords(el, words, swapMs, onDone) {
-    var i = 0;
-    var handle = setInterval(function () {
-      i++;
-      if (i >= words.length) {
-        clearInterval(handle);
-        el.textContent = words[words.length - 1];
-        if (hasGsap) gsap.fromTo(el, { scale: 1.15 }, { scale: 1, duration: 0.25, ease: "back.out(2)" });
-        if (onDone) onDone();
-        return;
-      }
-      el.textContent = words[i];
-      if (hasGsap) gsap.fromTo(el, { y: -6, opacity: 0.5 }, { y: 0, opacity: 1, duration: 0.11 });
-    }, swapMs);
-  }
-
   if (!introEl) {
     if (heroHeadline) heroHeadline.classList.add("is-in");
   } else if (reduceMotion || !hasGsap) {
@@ -2504,224 +2352,68 @@
   } else {
     var introGone = false;
 
-    // shared reveal elements, used by every finale
-    var ring = document.getElementById("introRing");
     var glow = document.getElementById("introGlow");
     var eyebrow = document.getElementById("introEyebrow");
     var introMark = document.getElementById("introMark");
-    var subEl = document.getElementById("introSub");
+    var pill = document.getElementById("introPill");
     var letters = introMark.querySelectorAll("span");
-    var curtainLeft = document.getElementById("curtainLeft");
-    var curtainRight = document.getElementById("curtainRight");
-    var wordChoices = ["spreadsheets", "group chats", "sticky notes", "spreadsheets"];
+    var hookReveal = document.getElementById("hookReveal");
 
-    // ================= OPENINGS =================
+    var beatType = document.getElementById("beatType");
+    var typeText = document.getElementById("typeText");
+    var typeCursor = document.getElementById("typeCursor");
+    var beatShot1 = document.getElementById("beatShot1");
+    var beatShot2 = document.getElementById("beatShot2");
+    var tiltCard1 = document.getElementById("tiltCard1");
+    var tiltCard2 = document.getElementById("tiltCard2");
 
-    function buildOpeningA() {
+    gsap.set([beatType, beatShot1, beatShot2, hookReveal], { autoAlpha: 0 });
+    gsap.set(glow, { scale: 0.7, opacity: 0 });
+    gsap.set(eyebrow, { opacity: 0 });
+    gsap.set(pill, { opacity: 0, y: 10 });
+    gsap.set(letters, { opacity: 0, y: 26, filter: "blur(6px)" });
+
+    /** A bold headline typed out with a real blinking cursor — the "problem"
+     *  beats. Reused twice with different copy. */
+    function typedHeadline(text, msPerChar) {
       var t = gsap.timeline();
-      var chips = Array.prototype.slice.call(document.querySelectorAll("#openA .fly-chip"));
-      var spread = Math.min(window.innerWidth, window.innerHeight) * 0.5;
-      chips.forEach(function (chip, i) {
-        var angle = (i / chips.length) * Math.PI * 2 + gsap.utils.random(-0.35, 0.35);
-        var dist = spread * gsap.utils.random(0.75, 1.25);
-        gsap.set(chip, {
-          xPercent: -50, yPercent: -50,
-          x: Math.cos(angle) * dist, y: Math.sin(angle) * dist,
-          scale: 0.4, rotation: gsap.utils.random(-70, 70), opacity: 0
-        });
-      });
-      t.to(chips, { opacity: 1, scale: 1, rotation: 0, x: 0, y: 0, duration: 1.05, ease: "back.out(1.6)", stagger: { each: 0.07, from: "random" } }, 0);
-      t.to(chips, { opacity: 0, scale: 0.25, duration: 0.4, ease: "power2.in", stagger: { each: 0.03, from: "random" } }, "+=0.55");
-
-      stackEcho(t, document.getElementById("stackLine1"), "Are you a wedding photographer?", 1.5, "-=0.15");
-      stackEcho(t, document.getElementById("stackLine2"), "Buried under a hundred spreadsheets?", 1.8);
-      stackEcho(t, document.getElementById("stackLine3"), "Still ending up with conflicting dates?", 1.6);
-      t.to("#openA", { opacity: 0, duration: 0.3 }, "+=0.15");
+      t.set(beatType, { autoAlpha: 0, y: 0 });
+      t.call(function () { typeText.textContent = ""; typeCursor.style.opacity = 1; });
+      t.to(beatType, { autoAlpha: 1, duration: 0.25 });
+      t.call(function () { typeChars(typeText, text, msPerChar); });
+      t.to({}, { duration: (text.length * msPerChar) / 1000 + 0.5 });
+      t.to(beatType, { autoAlpha: 0, y: -12, duration: 0.3, ease: "power2.in" }, "+=0.05");
       return t;
     }
 
-    /** The AE-style "receding echo stack": N outline duplicates of the same
-     *  text, offset diagonally and fading with distance, snap in fast behind
-     *  a solid front copy — then the whole stack holds, then exits. */
-    function stackEcho(t, container, text, holdDuration, startPos) {
-      container.innerHTML = "";
-      var wrap = document.createElement("span");
-      wrap.className = "stack-word-wrap";
-      var echoCount = 7;
-      for (var i = echoCount; i >= 1; i--) {
-        var echo = document.createElement("span");
-        echo.className = "stack-echo";
-        echo.style.setProperty("--i", i);
-        echo.dataset.targetOpacity = Math.max(0.06, 0.48 - i * 0.055);
-        echo.textContent = text;
-        wrap.appendChild(echo);
-      }
-      var front = document.createElement("span");
-      front.className = "stack-front";
-      front.textContent = text;
-      wrap.appendChild(front);
-      container.appendChild(wrap);
-
-      var echoes = wrap.querySelectorAll(".stack-echo");
-      gsap.set(echoes, { opacity: 0, scale: 1.25 });
-      gsap.set(front, { opacity: 0, y: 10, scale: 0.94 });
-
-      t.to(echoes, {
-        opacity: function (i, target) { return parseFloat(target.getAttribute("data-target-opacity")); },
-        scale: 1, duration: 0.32, stagger: 0.03, ease: "power2.out"
-      }, startPos);
-      t.to(front, { opacity: 1, y: 0, scale: 1, duration: 0.4, ease: "back.out(1.9)" }, "<0.14");
-      t.to({}, { duration: holdDuration });
-      t.to(wrap, { opacity: 0, scale: 0.95, duration: 0.35, ease: "power2.in" });
-    }
-
-    function buildOpeningB() {
+    /** A real Shinzo screen, tilted in 3D space, flying in with a neon
+     *  corner glow — the "here's the fix" beats. */
+    function tiltCardBeat(beatEl, cardEl, fromSide) {
       var t = gsap.timeline();
-      var msg1El = document.getElementById("chatMsg1"), msg2El = document.getElementById("chatMsg2");
-      var typed1 = document.getElementById("chatTyped1"), typed2 = document.getElementById("chatTyped2");
-      var cursor1 = document.getElementById("chatCursor1"), cursor2 = document.getElementById("chatCursor2");
-      var ticks1 = document.getElementById("chatTicks1"), ticks2 = document.getElementById("chatTicks2");
-      var typingRow = document.getElementById("chatTypingRow");
-      var msg1Text = "Hi 👋 quick one for you—";
-      var msg2Text = "still juggling bookings across a dozen spreadsheets and WhatsApp chats?";
-
-      gsap.set([msg1El, msg2El, typingRow], { opacity: 0 });
-
-      t.to(msg1El, { opacity: 1, duration: 0.3 }, 0.3);
-      t.call(function () {
-        typeChars(typed1, msg1Text, 30, function () {
-          gsap.to(cursor1, { opacity: 0, duration: 0.2 });
-          ticks1.classList.add("is-read");
-        });
-      });
-      t.to({}, { duration: (msg1Text.length * 0.03) + 0.7 });
-      t.to(typingRow, { opacity: 1, duration: 0.25 });
-      t.to({}, { duration: 0.9 });
-      t.to(typingRow, { opacity: 0, duration: 0.2 });
-      t.to(msg2El, { opacity: 1, duration: 0.3 }, "<");
-      t.call(function () {
-        typeChars(typed2, msg2Text, 24, function () {
-          gsap.to(cursor2, { opacity: 0, duration: 0.2 });
-          ticks2.classList.add("is-read");
-        });
-      });
-      t.to({}, { duration: (msg2Text.length * 0.024) + 1.7 });
-      t.to("#openB", { opacity: 0, y: -14, duration: 0.35 }, "+=0.15");
+      var dir = fromSide === "right" ? 1 : -1;
+      gsap.set(cardEl, { opacity: 0, scale: 0.86, y: 26, rotateY: dir * 22, rotateX: 6 });
+      t.set(beatEl, { autoAlpha: 1 });
+      t.to(cardEl, { opacity: 1, scale: 1, y: 0, rotateY: dir * -8, rotateX: 4, duration: 0.7, ease: "back.out(1.4)" });
+      t.to({}, { duration: 1.05 });
+      t.to(cardEl, { opacity: 0, scale: 0.92, y: -18, duration: 0.35, ease: "power2.in" });
+      t.set(beatEl, { autoAlpha: 0 });
       return t;
     }
 
-    function buildOpeningC() {
+    /** The brand lockup: a soft light bloom, then the Sentex wordmark
+     *  settling in with a shine sweep, then the tagline pill — no ring, no
+     *  decorative circles behind it. */
+    function logoReveal() {
       var t = gsap.timeline();
-      var lines = [
-        { text: document.querySelector("#slideLine1 .slide-text"), dir: 1 },
-        { text: document.querySelector("#slideLine2 .slide-text"), dir: -1 },
-        { text: document.querySelector("#slideLine3 .slide-text"), dir: 1 }
-      ];
-      var cycleWordC = document.getElementById("cycleWordC");
-      lines.forEach(function (l) { gsap.set(l.text, { xPercent: l.dir * 130 }); });
-
-      lines.forEach(function (l, i) {
-        t.to(l.text, { xPercent: 0, duration: 0.75, ease: "power4.out" }, i === 0 ? "+=0.3" : "+=1.5");
-        if (i === 1) t.call(function () { cycleWords(cycleWordC, wordChoices, 90); });
-        t.to({}, { duration: i === 2 ? 1.7 : 1.2 });
-        t.to(l.text, { xPercent: l.dir * -130, duration: 0.6, ease: "power3.in" });
-      });
-      t.to("#openC", { opacity: 0, duration: 0.3 }, "+=0.1");
-      return t;
-    }
-
-    // ================= FINALES =================
-
-    function resetSharedReveal() {
-      gsap.set(ring, { scale: 0.6, opacity: 0 });
-      gsap.set(glow, { scale: 0.7, opacity: 0 });
-      gsap.set(eyebrow, { opacity: 0 });
-      gsap.set(subEl, { opacity: 0 });
-      gsap.set([curtainLeft, curtainRight], { opacity: 0, x: 0 });
-      introMark.classList.remove("is-shining");
-    }
-
-    function buildFinaleLetters() {
-      var t = gsap.timeline();
-      resetSharedReveal();
-      gsap.set(letters, {
-        opacity: 0, scale: 1.15,
-        x: function () { return gsap.utils.random(-40, 40); },
-        y: function () { return gsap.utils.random(20, 60); },
-        rotation: function () { return gsap.utils.random(-25, 25); },
-        filter: "blur(8px)"
-      });
-      t.to(eyebrow, { opacity: 1, duration: 0.5 }, "+=0.1");
-      t.to(ring, { opacity: 1, scale: 1.08, duration: 0.55, ease: "back.out(1.5)" }, "<");
-      t.to(ring, { scale: 1, duration: 0.35 });
-      t.to(glow, { opacity: 0.55, scale: 1, duration: 1.3, ease: "power2.out" }, "<");
-      t.to(letters, { opacity: 1, scale: 1, x: 0, y: 0, rotation: 0, filter: "blur(0px)", duration: 0.85, ease: "back.out(1.6)", stagger: 0.075 }, "-=0.9");
+      t.to(glow, { opacity: 0.5, scale: 1, duration: 1, ease: "power2.out" });
+      t.set(hookReveal, { autoAlpha: 1 }, "<");
+      t.to(eyebrow, { opacity: 1, duration: 0.4 }, "<0.1");
+      t.to(letters, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.7, ease: "back.out(1.6)", stagger: 0.06 }, "-=0.15");
       t.call(function () { introMark.classList.add("is-shining"); }, null, "+=0.05");
-      t.to(subEl, { opacity: 1, duration: 0.6 }, "-=0.6");
+      t.to(pill, { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" }, "-=0.35");
       t.to({}, { duration: 2 });
       return t;
     }
-
-    function buildFinaleCurtain() {
-      var t = gsap.timeline();
-      resetSharedReveal();
-      gsap.set(letters, { opacity: 1, scale: 1, x: 0, y: 0, rotation: 0, filter: "blur(0px)" });
-      gsap.set([curtainLeft, curtainRight], { opacity: 1, x: 0 });
-      t.to(glow, { opacity: 0.4, scale: 1, duration: 0.6 }, "+=0.2");
-      t.to(curtainLeft, { x: "-100%", duration: 0.75, ease: "power4.inOut" }, "+=0.35");
-      t.to(curtainRight, { x: "100%", duration: 0.75, ease: "power4.inOut" }, "<");
-      t.to(eyebrow, { opacity: 1, duration: 0.4 }, "<");
-      t.to(ring, { opacity: 1, scale: 1.08, duration: 0.5, ease: "back.out(1.6)" }, "<0.15");
-      t.to(ring, { scale: 1, duration: 0.3 });
-      t.to(glow, { opacity: 0.55, duration: 0.4 }, "<");
-      t.call(function () { introMark.classList.add("is-shining"); });
-      t.to(subEl, { opacity: 1, duration: 0.5 }, "-=0.2");
-      t.to({}, { duration: 2 });
-      return t;
-    }
-
-    function buildFinaleParticles() {
-      var t = gsap.timeline();
-      resetSharedReveal();
-      gsap.set(letters, { opacity: 0, scale: 0.9, x: 0, y: 0, rotation: 0, filter: "blur(0px)" });
-      var burst = document.getElementById("particleBurst");
-      burst.innerHTML = "";
-      var dots = [];
-      for (var i = 0; i < 16; i++) {
-        var d = document.createElement("div");
-        d.className = "particle-dot";
-        burst.appendChild(d);
-        dots.push(d);
-      }
-      var spread2 = Math.min(window.innerWidth, window.innerHeight) * 0.4;
-      dots.forEach(function (d) {
-        var angle = Math.random() * Math.PI * 2;
-        var dist = spread2 * gsap.utils.random(0.6, 1);
-        gsap.set(d, { xPercent: -50, yPercent: -50, x: Math.cos(angle) * dist, y: Math.sin(angle) * dist, opacity: 0, scale: gsap.utils.random(0.6, 1.6) });
-      });
-      t.to(dots, { opacity: 1, duration: 0.3, stagger: { each: 0.02, from: "random" } }, "+=0.1");
-      t.to(dots, { x: 0, y: 0, duration: 0.9, ease: "power2.in", stagger: { each: 0.015, from: "random" } }, "<0.1");
-      t.to(dots, { opacity: 0, duration: 0.25 }, "-=0.25");
-      t.to(glow, { opacity: 0.6, scale: 1, duration: 0.5, ease: "power2.out" }, "-=0.45");
-      t.to(ring, { opacity: 1, scale: 1.08, duration: 0.5, ease: "back.out(1.6)" }, "<");
-      t.to(ring, { scale: 1, duration: 0.3 });
-      t.to(eyebrow, { opacity: 1, duration: 0.4 }, "<");
-      t.to(letters, { opacity: 1, scale: 1, duration: 0.6, ease: "back.out(1.4)" }, "-=0.2");
-      t.call(function () { introMark.classList.add("is-shining"); });
-      t.to(subEl, { opacity: 1, duration: 0.5 }, "-=0.3");
-      t.to({}, { duration: 2 });
-      return t;
-    }
-
-    // ================= choose + assemble ================
-
-    var openingChoice = pickVariant(["A", "B", "C"], "shinzo_intro_opening");
-    var finaleChoice = pickVariant(["letters", "curtain", "particles"], "shinzo_intro_finale");
-    var openingBuilders = { A: buildOpeningA, B: buildOpeningB, C: buildOpeningC };
-    var finaleBuilders = { letters: buildFinaleLetters, curtain: buildFinaleCurtain, particles: buildFinaleParticles };
-
-    var chosenOpeningEl = document.getElementById("open" + openingChoice);
-    if (chosenOpeningEl) chosenOpeningEl.classList.add("is-chosen");
 
     var tl = gsap.timeline({ defaults: { ease: "power3.out" }, onComplete: endIntro });
 
@@ -2736,9 +2428,11 @@
     introEl.addEventListener("click", endIntro);
     setTimeout(function () { introEl.classList.add("is-armed"); }, 400);
 
-    tl.add(openingBuilders[openingChoice]());
-    tl.add(finaleBuilders[finaleChoice](), "+=0.1");
-    tl.to({}, { duration: 1.6 }); // safety margin: every combination lands well past 10s
+    tl.add(typedHeadline("Still buried in a hundred spreadsheets?", 32));
+    tl.add(tiltCardBeat(beatShot1, tiltCard1, "left"), "+=0.1");
+    tl.add(typedHeadline("Still double-booking your crew?", 32), "+=0.15");
+    tl.add(tiltCardBeat(beatShot2, tiltCard2, "right"), "+=0.1");
+    tl.add(logoReveal(), "+=0.15");
   }
 
   /* ---------- word-stagger split (before the reveal observer attaches) ---------- */
