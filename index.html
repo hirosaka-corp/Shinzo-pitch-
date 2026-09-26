@@ -1,3 +1,8 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Shinzo</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -269,6 +274,22 @@
     color: var(--ink-soft);
     border-color: var(--line);
   }
+  .sticky-cta { display: none; }
+  @media (max-width: 640px) {
+    body { padding-bottom: 4.5rem; }
+    .sticky-cta {
+      display: flex;
+      position: fixed;
+      left: 0; right: 0; bottom: 0;
+      z-index: 500;
+      padding: 0.6rem 0.9rem calc(0.6rem + env(safe-area-inset-bottom));
+      background: color-mix(in oklch, var(--paper) 92%, transparent);
+      border-top: 1px solid var(--line);
+      -webkit-backdrop-filter: blur(var(--glass-blur));
+      backdrop-filter: blur(var(--glass-blur));
+    }
+    .sticky-cta .btn { flex: 1; justify-content: center; }
+  }
   .audience-row {
     display: flex;
     flex-wrap: wrap;
@@ -373,6 +394,37 @@
   @keyframes toast-in {
     from { opacity: 0; transform: translateY(10px) scale(0.95); }
     to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+  .hero-frag {
+    position: absolute;
+    z-index: 2;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    max-width: 180px;
+    background: var(--card);
+    border: 1px solid var(--line);
+    color: var(--ink);
+    border-radius: 0.7rem;
+    padding: 0.55rem 0.7rem;
+    font-size: 0.68rem;
+    line-height: 1.35;
+    box-shadow: var(--shadow);
+    pointer-events: none;
+  }
+  .hero-frag svg { flex-shrink: 0; margin-top: 0.1rem; }
+  .hero-frag span { color: var(--ink-faint); }
+  .hero-frag b { display: block; color: var(--ink); }
+  .hero-frag--warn { border-color: color-mix(in oklch, var(--destructive) 32%, var(--line)); }
+  .hero-frag--warn svg { color: var(--destructive); }
+  .hero-frag--accent { border-color: color-mix(in oklch, var(--accent) 32%, var(--line)); }
+  .hero-frag--accent svg { color: var(--accent); }
+  .hero-frag--crew svg { color: var(--amber); }
+  @media (prefers-reduced-motion: no-preference) {
+    .hero-frag { animation: toast-in 0.6s cubic-bezier(.2,.85,.25,1) both; }
+  }
+  @media (max-width: 860px) {
+    .hero-frag { display: none; }
   }
 
   /* ---------- scroll reveal ---------- */
@@ -519,6 +571,61 @@
   .lt-pct b { font-size: 0.74rem; color: var(--ink-soft); min-width: 2.2em; }
   .lt-bar { position: relative; flex: 1; height: 6px; border-radius: 999px; background: var(--line-soft); overflow: hidden; }
   .lt-bar i { position: absolute; inset: 0; width: 0; background: var(--accent); border-radius: 999px; }
+
+  /* ---------- conflict-free scheduling moment ---------- */
+  .conflict-demo { max-width: 580px; margin: 2.5rem auto 0; display: flex; flex-direction: column; align-items: center; gap: 0.6rem; }
+  .conflict-frame { width: 100%; background: var(--card); border: 1px solid var(--line); border-radius: 1rem; padding: 1.1rem 1.2rem 1.3rem; box-shadow: var(--shadow); }
+  .conflict-frame.is-resolved { border-color: color-mix(in oklch, var(--success) 30%, var(--line)); }
+  .conflict-label { font-size: 0.66rem; color: var(--ink-faint); letter-spacing: 0.04em; margin-bottom: 0.85rem; }
+  .conflict-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.7rem; }
+  .conflict-card { border: 1px solid var(--line-soft); border-radius: 0.7rem; padding: 0.6rem 0.7rem; font-size: 0.78rem; }
+  .conflict-card .conflict-time { font-size: 0.64rem; color: var(--ink-faint); margin-bottom: 0.25rem; font-family: "IBM Plex Mono", monospace; }
+  .conflict-card b { display: block; font-size: 0.82rem; margin-bottom: 0.15rem; }
+  .conflict-card span:not(.conflict-time) { color: var(--ink-faint); font-size: 0.72rem; }
+  .conflict-card.is-conflict { background: color-mix(in oklch, var(--destructive) 10%, var(--paper)); border-color: color-mix(in oklch, var(--destructive) 30%, var(--line)); }
+  .conflict-card.is-conflict b { color: var(--destructive); }
+  .conflict-flag { display: flex; align-items: flex-start; gap: 0.5rem; margin-top: 0.9rem; padding-top: 0.9rem; border-top: 1px solid var(--line-soft); font-size: 0.8rem; color: var(--ink-soft); }
+  .conflict-flag svg { flex-shrink: 0; margin-top: 0.15rem; color: var(--destructive); }
+  .conflict-flag b { color: var(--ink); }
+  .conflict-flag.is-clear svg { color: var(--success); }
+  .conflict-arrow { font-size: 1.1rem; color: var(--ink-faint); line-height: 1; }
+  @media (max-width: 640px) {
+    .conflict-row { grid-template-columns: 1fr; }
+  }
+
+  /* ---------- exploded product view ---------- */
+  .exploded { display: flex; flex-direction: column; align-items: center; gap: 0.55rem; margin: 3rem auto 0; max-width: 420px; }
+  .exploded-layer {
+    display: flex; align-items: center; gap: 0.7rem; width: 100%;
+    background: var(--card); border: 1px solid var(--line-soft); border-radius: 0.7rem;
+    padding: 0.65rem 0.9rem; font-size: 0.86rem; color: var(--ink-soft);
+    opacity: 0; transform: translateY(-14px) scale(0.97);
+  }
+  .exploded-layer .icon-box {
+    width: 30px; height: 30px; border-radius: 0.55rem; flex-shrink: 0;
+    background: color-mix(in oklch, var(--accent) 12%, transparent);
+    color: var(--accent-strong);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .exploded.is-in .exploded-layer {
+    animation: layer-settle 0.55s cubic-bezier(.2,.85,.25,1) both;
+    animation-delay: calc(var(--i) * 0.09s);
+  }
+  .exploded-converge {
+    display: flex; align-items: center; gap: 0.5rem; margin-top: 0.6rem;
+    font-family: "IBM Plex Mono", monospace; font-weight: 600; font-size: 0.9rem; color: var(--accent-strong);
+    opacity: 0; transform: scale(0.9);
+  }
+  .exploded.is-in .exploded-converge {
+    animation: layer-settle 0.5s cubic-bezier(.2,.85,.25,1) 0.7s both;
+  }
+  @keyframes layer-settle {
+    from { opacity: 0; transform: translateY(-14px) scale(0.97); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .exploded-layer, .exploded-converge { opacity: 1; transform: none; animation: none; }
+  }
 
   /* ---------- feature grid ---------- */
   .feature-grid {
@@ -1028,6 +1135,8 @@
     .word-reveal .w { opacity: 1; transform: none; }
   }
 </style>
+</head>
+<body>
 
 <div class="ambient" aria-hidden="true"><span class="b1"></span><span class="b2"></span><span class="b3"></span></div>
 <canvas id="galaxyCanvas" class="galaxy-canvas" aria-hidden="true"></canvas>
@@ -1053,7 +1162,7 @@
     <div>
       <div class="eyebrow mono">Studio operations software</div>
       <div class="hero-typed" aria-hidden="true"><span id="heroTyped"></span><span class="hero-typed-cursor">|</span></div>
-      <h1 class="word-reveal" id="heroHeadline">One system, from the first enquiry to the last rupee collected.</h1>
+      <h1 class="word-reveal" id="heroHeadline">Run the entire studio from one system — not a dozen apps stitched together.</h1>
       <p class="lede">Shinzo replaces the spreadsheet, the WhatsApp threads and the paper diary with a single place your studio actually runs from — proposals, bookings, crew scheduling, payments and client communication, all connected.</p>
       <div class="cta-row">
         <a class="btn btn-primary" href="#contact">Book a walkthrough</a>
@@ -1107,6 +1216,18 @@
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
         <span>Deposit received — moved to <b>Booked</b></span>
       </div>
+      <div class="hero-frag hero-frag--warn" style="top:-0.75rem; left:-1.5rem; animation-delay:1.25s;" aria-hidden="true">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/></svg>
+        <span>S. Iyer — double-booked <b>14 Oct, two cities</b></span>
+      </div>
+      <div class="hero-frag hero-frag--accent" style="top:14%; right:-1.5rem; animation-delay:1.45s;" aria-hidden="true">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+        <span>Olivia &amp; James accepted <b>₹3,10,000</b></span>
+      </div>
+      <div class="hero-frag hero-frag--crew" style="bottom:20%; right:-1.5rem; animation-delay:1.65s;" aria-hidden="true">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="3"/><circle cx="17" cy="8" r="3"/><path d="M2 20c0-3 2.5-5 6-5s6 2 6 5M13 20c0-2.7 2-5 5-5s4 1.8 4 5"/></svg>
+        <span>4 crew assigned <b>Wedding Day, Oct 14</b></span>
+      </div>
     </div>
   </div>
 </div>
@@ -1115,7 +1236,7 @@
 
 <div class="wrap">
   <section>
-    <div class="eyebrow mono"><span class="count">01 / 09</span> — The problem</div>
+    <div class="eyebrow mono"><span class="count">01 / 11</span> — The problem</div>
     <h2 class="reveal word-reveal" style="font-size:clamp(1.6rem, 2.6vw + 0.7rem, 2.3rem); max-width: 22em;">Most studios run on memory and good intentions. Neither scales past a few bookings a month.</h2>
     <div class="problem-grid reveal">
       <div class="problem-item"><span class="mark">→</span><p><strong>Which spreadsheet has the real numbers?</strong> Three tabs say three different things about the same booking.</p></div>
@@ -1131,7 +1252,7 @@
 
 <div class="wrap">
   <section id="inside">
-    <div class="eyebrow mono"><span class="count">02 / 09</span> — How it flows</div>
+    <div class="eyebrow mono"><span class="count">02 / 11</span> — How it flows</div>
     <h2 class="reveal word-reveal" style="font-size:clamp(1.6rem, 2.6vw + 0.7rem, 2.3rem);">One booking, one thread, start to finish.</h2>
     <div class="flow reveal">
       <div class="flow-step">
@@ -1162,6 +1283,60 @@
 
   </section>
 </div>
+
+<hr class="sprocket">
+
+<div class="wrap">
+  <section>
+    <div class="eyebrow mono"><span class="count">03 / 11</span> — The one problem software should have solved years ago</div>
+    <h2 class="reveal word-reveal" style="font-size:clamp(1.6rem, 2.6vw + 0.7rem, 2.3rem); max-width: 22em;">One photographer. Two weddings. Same day.</h2>
+    <p class="frame-note reveal" style="margin-top: 0.9rem;">Every new booking is checked against your crew's existing schedule — a same-day double-booking, or a back-to-back shoot in a different city without enough buffer in between. Caught before you confirm, not after someone's already on the road.</p>
+
+    <div class="conflict-demo reveal">
+      <div class="conflict-frame">
+        <div class="conflict-label mono">14 OCT — S. IYER</div>
+        <div class="conflict-row">
+          <div class="conflict-card">
+            <div class="conflict-time">10:00 — 14:00</div>
+            <b>Chen–Alvarez Wedding</b>
+            <span>Delhi</span>
+          </div>
+          <div class="conflict-card is-conflict">
+            <div class="conflict-time">13:00 — 18:00</div>
+            <b>Two Birds Product Shoot</b>
+            <span>Jaipur</span>
+          </div>
+        </div>
+        <div class="conflict-flag">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/></svg>
+          <span>Same crew, overlapping window, different cities — <b>not enough buffer to get from one to the other.</b></span>
+        </div>
+      </div>
+      <div class="conflict-arrow" aria-hidden="true">↓</div>
+      <div class="conflict-frame is-resolved">
+        <div class="conflict-label mono">14–15 OCT — REASSIGNED</div>
+        <div class="conflict-row">
+          <div class="conflict-card">
+            <div class="conflict-time">10:00 — 14:00</div>
+            <b>Chen–Alvarez Wedding</b>
+            <span>Delhi · S. Iyer</span>
+          </div>
+          <div class="conflict-card">
+            <div class="conflict-time">15 OCT · 11:00</div>
+            <b>Two Birds Product Shoot</b>
+            <span>Jaipur · R. Bose</span>
+          </div>
+        </div>
+        <div class="conflict-flag is-clear">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+          <span>Reassigned to a free second shooter — <b>both dates covered, nobody double-booked.</b></span>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<hr class="sprocket">
 
 <section class="cine-chapter">
   <div class="cine-rain" id="cineRain" aria-hidden="true"></div>
@@ -1204,7 +1379,7 @@
 
 <div class="wrap">
   <section id="demo">
-    <div class="eyebrow mono"><span class="count">03 / 09</span> — Try it</div>
+    <div class="eyebrow mono"><span class="count">04 / 11</span> — Try it</div>
     <h2 class="reveal word-reveal" style="font-size:clamp(1.6rem, 2.6vw + 0.7rem, 2.3rem); max-width: 26em;">Not a description of the software. The software.</h2>
     <p class="frame-note" style="margin-top:0.6rem;">Four real screens, rebuilt at working scale on sample data. Drag a card, open a day, change a package, hover the chart — this is the actual interaction, not a screenshot of it.</p>
 
@@ -1423,7 +1598,30 @@
 
 <div class="wrap">
   <section>
-    <div class="eyebrow mono"><span class="count">04 / 09</span> — What's inside</div>
+    <div class="eyebrow mono"><span class="count">05 / 11</span> — One system, six layers</div>
+    <h2 class="reveal word-reveal" style="font-size:clamp(1.6rem, 2.6vw + 0.7rem, 2.3rem);">Six things that used to be six different tools.</h2>
+    <p class="frame-note reveal" style="margin-top: 0.9rem;">A booking, a proposal, a schedule slot, a crew assignment and a payment aren't six separate records that need reconciling — they're the same one, seen from six angles.</p>
+
+    <div class="exploded reveal">
+      <div class="exploded-layer" style="--i:0"><span class="icon-box"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="6" height="16" rx="1"/><rect x="10.5" y="8" width="6" height="12" rx="1"/><rect x="18" y="12" width="3" height="8" rx="1"/></svg></span><span>Pipeline &amp; bookings</span></div>
+      <div class="exploded-layer" style="--i:1"><span class="icon-box"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6"/></svg></span><span>Proposals &amp; client portal</span></div>
+      <div class="exploded-layer" style="--i:2"><span class="icon-box"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 3v3M16 3v3"/></svg></span><span>Shoot scheduling</span></div>
+      <div class="exploded-layer" style="--i:3"><span class="icon-box"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="3"/><circle cx="17" cy="8" r="3"/><path d="M2 20c0-3 2.5-5 6-5s6 2 6 5M13 20c0-2.7 2-5 5-5s4 1.8 4 5"/></svg></span><span>Crew &amp; team</span></div>
+      <div class="exploded-layer" style="--i:4"><span class="icon-box"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h9l4 4v14H6z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></svg></span><span>Money &amp; invoicing</span></div>
+      <div class="exploded-layer" style="--i:5"><span class="icon-box"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="14" rx="2"/><path d="M3 7l3-4h12l3 4"/></svg></span><span>Records &amp; ownership</span></div>
+      <div class="exploded-converge">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9.5" stroke="var(--accent)" stroke-width="1.6"/><circle cx="12" cy="12" r="3" fill="var(--accent)"/></svg>
+        <span>Shinzo</span>
+      </div>
+    </div>
+  </section>
+</div>
+
+<hr class="sprocket">
+
+<div class="wrap">
+  <section>
+    <div class="eyebrow mono"><span class="count">06 / 11</span> — What's inside</div>
     <h2 class="reveal word-reveal" style="font-size:clamp(1.6rem, 2.6vw + 0.7rem, 2.3rem);">Six modules. One shared record of every booking.</h2>
     <div class="feature-grid reveal">
 
@@ -1520,7 +1718,7 @@
 
 <div class="wrap">
   <section>
-    <div class="eyebrow mono"><span class="count">05 / 09</span> — Why studios switch</div>
+    <div class="eyebrow mono"><span class="count">07 / 11</span> — Why studios switch</div>
     <h2 class="reveal word-reveal" style="font-size:clamp(1.6rem, 2.6vw + 0.7rem, 2.3rem);">The same job, minus the guessing.</h2>
     <div class="compare reveal">
       <div class="compare-head"><span>WITHOUT SHINZO</span><span></span><span class="h-with">WITH SHINZO</span></div>
@@ -1538,7 +1736,7 @@
 
 <div class="wrap">
   <section>
-    <div class="eyebrow mono"><span class="count">06 / 09</span> — Built right</div>
+    <div class="eyebrow mono"><span class="count">08 / 11</span> — Built right</div>
     <h2 class="reveal word-reveal" style="font-size:clamp(1.6rem, 2.6vw + 0.7rem, 2.3rem);">Not a demo. Not a prototype.</h2>
     <div class="proof-grid reveal">
       <div class="proof-item"><h3>Strict data isolation</h3><p>Every studio's bookings, clients and money are walled off from every other studio at the database level.</p></div>
@@ -1556,7 +1754,7 @@
 
 <div class="wrap">
   <section>
-    <div class="eyebrow mono"><span class="count">07 / 09</span> — Data &amp; security</div>
+    <div class="eyebrow mono"><span class="count">09 / 11</span> — Data &amp; security</div>
     <h2 class="reveal word-reveal" style="font-size:clamp(1.6rem, 2.6vw + 0.7rem, 2.3rem); max-width: 30em;">The architecture underneath, in plain terms.</h2>
     <p class="frame-note" style="margin-top:0.6rem;">Not a marketing gloss — this is what's actually running underneath, described accurately rather than dressed up.</p>
 
@@ -1601,7 +1799,7 @@
 
 <div class="wrap">
   <section>
-    <div class="eyebrow mono"><span class="count">08 / 09</span> — Before you ask</div>
+    <div class="eyebrow mono"><span class="count">10 / 11</span> — Before you ask</div>
     <h2 class="reveal word-reveal" style="font-size:clamp(1.6rem, 2.6vw + 0.7rem, 2.3rem); max-width: 26em;">The honest answers to what you're already wondering.</h2>
     <div class="faq-list reveal">
       <details class="faq-item">
@@ -1638,7 +1836,7 @@
 
 <div class="wrap">
   <section class="cta-block" id="contact">
-    <div class="eyebrow mono" style="justify-content:center;"><span class="count">09 / 09</span> — Get started</div>
+    <div class="eyebrow mono" style="justify-content:center;"><span class="count">11 / 11</span> — Get started</div>
     <h2>See it running on a real booking, not a slide.</h2>
     <p class="lede">Fifteen minutes is enough to walk through a proposal, a booking, and a payment end to end. Plans and pricing are matched to the studio — happy to talk through what fits.</p>
     <div class="contact-card glass reveal">
@@ -1649,11 +1847,11 @@
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
           Visit the live app
         </a>
-        <a class="btn btn-primary" href="mailto:hirosaka.corpo@gmail.com?subject=Shinzo%20%E2%80%94%20I%27d%20like%20to%20see%20it" target="_blank" rel="noopener">
+        <a class="btn btn-ghost" href="mailto:hirosaka.corpo@gmail.com?subject=Shinzo%20%E2%80%94%20I%27d%20like%20to%20see%20it" target="_blank" rel="noopener">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
           Email us
         </a>
-        <a class="btn btn-primary" href="https://wa.me/918406972119?text=Hi%2C%20I%27d%20like%20to%20see%20a%20walkthrough%20of%20Shinzo" target="_blank" rel="noopener">
+        <a class="btn btn-ghost" href="https://wa.me/918406972119?text=Hi%2C%20I%27d%20like%20to%20see%20a%20walkthrough%20of%20Shinzo" target="_blank" rel="noopener">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.5 8.5 0 0 1-12.5 7.5L3 20l1.1-5.3A8.5 8.5 0 1 1 21 11.5Z"/><path d="M8.5 10.5c.3 2.5 2.5 4.7 5 5" stroke-linecap="round"/></svg>
           WhatsApp us
         </a>
@@ -1669,6 +1867,10 @@
   </div>
   <div>Built and operated by Hirosaka.</div>
 </footer>
+
+<div class="sticky-cta" role="complementary" aria-label="Quick contact">
+  <a class="btn btn-primary" href="#contact">Book a walkthrough →</a>
+</div>
 
 <script>
 (function () {
@@ -2284,3 +2486,5 @@
   }
 })();
 </script>
+</body>
+</html>
