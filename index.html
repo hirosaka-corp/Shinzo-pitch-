@@ -320,6 +320,17 @@
     line-height: 1;
   }
   .stat-item span { font-size: 0.76rem; color: var(--ink-faint); max-width: 11em; line-height: 1.3; }
+  .scroll-cue { display: none; }
+  @media (max-width: 860px) {
+    .scroll-cue { display: flex; justify-content: center; margin-top: 1.25rem; color: var(--ink-faint); }
+  }
+  @media (max-width: 860px) and (prefers-reduced-motion: no-preference) {
+    .scroll-cue svg { animation: scroll-bob 1.6s ease-in-out infinite; }
+  }
+  @keyframes scroll-bob {
+    0%, 100% { transform: translateY(0); opacity: 0.45; }
+    50% { transform: translateY(6px); opacity: 1; }
+  }
 
   /* ---------- hero visual ---------- */
   .hero-visual { position: relative; display: flex; align-items: center; justify-content: center; padding: 1.5rem; }
@@ -802,9 +813,11 @@
 
   @media (max-width: 860px) {
     .hero-grid { grid-template-columns: 1fr; }
-    .hero-visual { order: -1; margin-bottom: 0.5rem; padding: 1rem 0.5rem; }
+    .hero-visual { margin-top: 0.5rem; padding: 1rem 0.5rem; }
     .hero-shot { width: min(320px, 100%); }
-    .stat-strip { gap: 1.1rem; flex-wrap: wrap; }
+    .stat-strip { gap: 1.1rem; flex-wrap: wrap; margin-top: 1.5rem; padding-top: 1.1rem; }
+    .stat-num { font-size: 1.5rem; }
+    .hero-top .chip { display: none; }
     .problem-grid { grid-template-columns: 1fr; }
     .flow { grid-template-columns: repeat(3, 1fr); row-gap: 2rem; }
     .flow::before { display: none; }
@@ -1162,8 +1175,8 @@
     <div>
       <div class="eyebrow mono">Studio operations software</div>
       <div class="hero-typed" aria-hidden="true"><span id="heroTyped"></span><span class="hero-typed-cursor">|</span></div>
-      <h1 class="word-reveal" id="heroHeadline">Run the entire studio from one system — not a dozen apps stitched together.</h1>
-      <p class="lede">Shinzo replaces the spreadsheet, the WhatsApp threads and the paper diary with a single place your studio actually runs from — proposals, bookings, crew scheduling, payments and client communication, all connected.</p>
+      <h1 class="word-reveal" id="heroHeadline">One system for your whole studio.</h1>
+      <p class="lede">Replaces the spreadsheet, the WhatsApp threads and the paper diary — proposals, bookings, crew and payments, all in one place.</p>
       <div class="cta-row">
         <a class="btn btn-primary" href="#contact">Book a walkthrough</a>
         <a class="btn btn-ghost" href="#demo">Play with it ↓</a>
@@ -1178,6 +1191,9 @@
         <div class="stat-item"><b class="stat-num" data-target="10">0</b><span>Pipeline stages, tracked automatically</span></div>
         <div class="stat-item"><b class="stat-num" data-target="6">0</b><span>Connected modules, one login</span></div>
         <div class="stat-item"><b class="stat-num" data-target="0">—</b><span>Spreadsheets you'll still need</span></div>
+      </div>
+      <div class="scroll-cue" aria-hidden="true">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M6 13l6 6 6-6"/></svg>
       </div>
     </div>
 
