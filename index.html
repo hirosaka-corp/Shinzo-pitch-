@@ -1325,7 +1325,7 @@
   .op-features li { overflow: hidden; }
   .op-features li > span { display: inline-block; }
 
-  .op-cta { display: flex; flex-wrap: wrap; align-items: center; gap: 1.1rem 1.6rem; margin-top: clamp(2rem, 3.5vw, 3rem); }
+  .op-cta { display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem; margin-top: clamp(2rem, 3.5vw, 3rem); }
   .op-btn {
     display: inline-flex;
     align-items: center;
@@ -1341,16 +1341,24 @@
   }
   .op-btn:hover { background: oklch(0.28 0.004 250); }
   .op-btn:active { transform: scale(0.98); }
+  /* The secondary action: the same pill as "Talk to us", in white — a
+     hairline edge keeps it defined on the off-white paper. */
   .op-link {
+    display: inline-flex;
+    align-items: center;
+    height: 3rem;
+    padding: 0 1.5rem;
+    border-radius: 999px;
+    border: 1px solid color-mix(in oklch, var(--op-ink) 14%, transparent);
+    background: #fff;
     color: var(--op-ink);
-    font-weight: 500;
+    font-weight: 600;
     font-size: 0.95rem;
-    text-decoration: underline;
-    text-underline-offset: 0.28em;
-    text-decoration-thickness: 1px;
-    transition: text-underline-offset 120ms var(--op-ease);
+    text-decoration: none;
+    transition: border-color 120ms var(--op-ease), transform 60ms var(--op-ease);
   }
-  .op-link:hover { text-underline-offset: 0.4em; }
+  .op-link:hover { border-color: color-mix(in oklch, var(--op-ink) 35%, transparent); }
+  .op-link:active { transform: scale(0.98); }
   .op-btn:focus-visible, .op-link:focus-visible { outline: 2px solid var(--op-ink); outline-offset: 3px; }
 
   /* =====================================================================
@@ -1514,7 +1522,7 @@
     .op-title { font-size: clamp(1.5rem, 6.6vw, 2.1rem); }
     .op-features { margin-top: 2.4rem; font-size: 1.05rem; }
     .op-cta { margin-top: 1.8rem; }
-    .op-btn { height: 2.9rem; padding: 0 1.3rem; }
+    .op-btn, .op-link { height: 2.9rem; padding: 0 1.3rem; }
   }
   @media (max-width: 380px) {
     .op-row2 { grid-template-columns: 3.2rem minmax(0, 1fr); }
