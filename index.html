@@ -2132,20 +2132,67 @@
 
   /* ---- the two phones ---- */
   .sp-stage { position: relative; width: min(100%, 44rem); margin: 0 auto; aspect-ratio: 1 / 1.12; container-type: inline-size; }
+  /* A phone, built the way the real object is layered: a brushed-titanium
+     band (with a light catch along its edge and the side buttons), a black
+     glass bezel, then the screen — status bar, Dynamic Island, home
+     indicator and a faint glass sheen. Thickness shows as the metal side
+     edge; a soft coloured shadow sets it into the scene. */
   .sp-phone {
+    --ti: linear-gradient(135deg, oklch(0.66 0.006 250) 0%, oklch(0.36 0.004 250) 16%, oklch(0.56 0.005 250) 44%, oklch(0.32 0.004 250) 74%, oklch(0.62 0.006 250) 100%);
     position: absolute;
     width: 45cqw;
     aspect-ratio: 9 / 19.3;
-    padding: 1.6cqw;
-    border-radius: 7.4cqw;
-    background: oklch(0.13 0.003 250);
-    box-shadow: inset 0 0 0 0.45cqw oklch(0.42 0.004 250), inset 0 0 0 0.8cqw oklch(0.1 0 0), 0 3cqw 6cqw -2cqw oklch(0.3 0.08 320 / 0.45);
+    padding: 0.55cqw;
+    border-radius: 7.6cqw;
+    background: var(--ti);
   }
-  .sp-phone .sp-scr { position: relative; height: 100%; overflow: hidden; border-radius: 5.9cqw; background: oklch(0.1 0.003 250); font-size: calc(45cqw / 21); font-family: "Manrope", "Public Sans", sans-serif; color: oklch(0.95 0.004 250); font-variant-numeric: tabular-nums; }
-  .sp-phone .sp-island { position: absolute; z-index: 2; top: 2.4%; left: 50%; width: 32%; height: 3.2%; border-radius: 99px; background: #000; transform: translateX(-50%); }
-  .sp-back { z-index: 1; left: 7cqw; top: 0; transform: perspective(160cqw) rotateX(14deg) rotateY(-16deg) rotateZ(-7deg); transform-origin: 60% 60%; }
+  /* left: action button + volume up/down; right: side button */
+  .sp-phone::before, .sp-phone::after {
+    content: "";
+    position: absolute;
+    width: 0.55cqw;
+    border-radius: 0.3cqw;
+    background: var(--ti);
+  }
+  .sp-phone::before { left: -0.4cqw; top: 17%; height: 3.4cqw; box-shadow: 0 6cqw 0 0 oklch(0.46 0.005 250), 0 13.5cqw 0 0 oklch(0.46 0.005 250); }
+  .sp-phone::after { right: -0.4cqw; top: 26%; height: 9cqw; }
+  .sp-phone .sp-body {
+    position: relative;
+    height: 100%;
+    padding: 1.15cqw;
+    border-radius: 7.1cqw;
+    background: #050505;
+    box-shadow: inset 0 0 0 0.18cqw oklch(0.2 0 0);
+  }
+  .sp-phone .sp-scr { position: relative; height: 100%; overflow: hidden; border-radius: 6cqw; background: oklch(0.1 0.003 250); font-size: calc(45cqw / 21); font-family: "Manrope", "Public Sans", sans-serif; color: oklch(0.95 0.004 250); font-variant-numeric: tabular-nums; }
+  .sp-phone .sp-scr::after { content: ""; position: absolute; inset: 0; z-index: 4; pointer-events: none; background: linear-gradient(118deg, oklch(1 0 0 / 0.08) 0%, oklch(1 0 0 / 0.02) 30%, transparent 46%, transparent 78%, oklch(1 0 0 / 0.035) 100%); }
+  .sp-phone .sp-island { position: absolute; z-index: 5; top: 2.3%; left: 50%; width: 31%; height: 3.3%; border-radius: 99px; background: #000; transform: translateX(-50%); }
+  .sp-phone .sp-status { position: absolute; z-index: 3; top: 2.3%; left: 0; right: 0; height: 3.3%; display: flex; align-items: center; justify-content: space-between; padding: 0 8.5% 0 11%; font-size: 0.62em; font-weight: 700; letter-spacing: -0.01em; }
+  .sp-phone .sp-status svg { height: 0.95em; width: auto; fill: currentColor; }
+  .sp-phone .sp-home { position: absolute; z-index: 3; bottom: 1%; left: 50%; width: 36%; height: 0.55%; border-radius: 99px; background: oklch(1 0 0 / 0.55); transform: translateX(-50%); }
+  .sp-back {
+    z-index: 1; left: 7cqw; top: 0;
+    transform: perspective(160cqw) rotateX(14deg) rotateY(-16deg) rotateZ(-7deg);
+    transform-origin: 60% 60%;
+    /* the titanium side edge, stepping away with the tilt, then its shadow */
+    box-shadow:
+      inset 0 0 0 0.12cqw oklch(0.8 0.004 250 / 0.55),
+      0.3cqw 0.35cqw 0 oklch(0.44 0.005 250),
+      0.6cqw 0.7cqw 0 oklch(0.37 0.005 250),
+      0.9cqw 1.05cqw 0 oklch(0.3 0.004 250),
+      1.15cqw 1.35cqw 0 oklch(0.25 0.004 250),
+      3cqw 6cqw 7cqw -1cqw oklch(0.3 0.09 320 / 0.5);
+  }
   /* the front phone overlaps the back one, as a pair, not two separate objects */
-  .sp-front { z-index: 2; left: 41cqw; top: 15cqw; }
+  .sp-front {
+    z-index: 2; left: 41cqw; top: 15cqw;
+    box-shadow:
+      inset 0 0 0 0.12cqw oklch(0.82 0.004 250 / 0.6),
+      0.35cqw 0.25cqw 0 oklch(0.4 0.005 250),
+      0.7cqw 0.5cqw 0 oklch(0.3 0.004 250),
+      0 5cqw 8cqw -2cqw oklch(0.28 0.09 320 / 0.55),
+      0 1.2cqw 2.2cqw -0.8cqw oklch(0.2 0.05 320 / 0.35);
+  }
 
   /* shared mobile-UI bits, sized in em off the phone */
   .sp .sp-u-muted { color: oklch(0.64 0.01 250); }
@@ -2389,7 +2436,7 @@
   <div class="sp-edge sp-edge-r" aria-hidden="true"><div class="sp-row"><svg><use href="#sg-H" width="100%" height="100%"/></svg><svg><use href="#sg-H" width="100%" height="100%"/></svg><svg><use href="#sg-H" width="100%" height="100%"/></svg></div><div class="sp-row"><svg><use href="#sg-I" width="100%" height="100%"/></svg><svg><use href="#sg-I" width="100%" height="100%"/></svg><svg><use href="#sg-I" width="100%" height="100%"/></svg></div><div class="sp-row"><svg><use href="#sg-R" width="100%" height="100%"/></svg><svg><use href="#sg-R" width="100%" height="100%"/></svg><svg><use href="#sg-R" width="100%" height="100%"/></svg></div><div class="sp-row"><svg><use href="#sg-O" width="100%" height="100%"/></svg><svg><use href="#sg-O" width="100%" height="100%"/></svg><svg><use href="#sg-O" width="100%" height="100%"/></svg></div><div class="sp-row"><svg><use href="#sg-S" width="100%" height="100%"/></svg><svg><use href="#sg-S" width="100%" height="100%"/></svg><svg><use href="#sg-S" width="100%" height="100%"/></svg></div><div class="sp-row"><svg><use href="#sg-A" width="100%" height="100%"/></svg><svg><use href="#sg-A" width="100%" height="100%"/></svg><svg><use href="#sg-A" width="100%" height="100%"/></svg></div><div class="sp-row"><svg><use href="#sg-K" width="100%" height="100%"/></svg><svg><use href="#sg-K" width="100%" height="100%"/></svg><svg><use href="#sg-K" width="100%" height="100%"/></svg></div><div class="sp-row"><svg><use href="#sg-A" width="100%" height="100%"/></svg><svg><use href="#sg-A" width="100%" height="100%"/></svg><svg><use href="#sg-A" width="100%" height="100%"/></svg></div></div>
 
   <div class="sp-stage" role="img" aria-label="Shinzo on two phones: the payments ledger and a pipeline column of scheduled shoots">
-    <div class="sp-phone sp-back" aria-hidden="true"><span class="sp-island"></span><div class="sp-scr">
+    <div class="sp-phone sp-back" aria-hidden="true"><div class="sp-body"><span class="sp-island"></span><div class="sp-scr"><div class="sp-status"><span>9:41</span><span style="display:flex;gap:.35em;align-items:center"><svg viewBox="0 0 18 12"><rect x="0" y="8" width="3" height="4" rx="1"/><rect x="5" y="5.5" width="3" height="6.5" rx="1"/><rect x="10" y="3" width="3" height="9" rx="1"/><rect x="15" y="0" width="3" height="12" rx="1"/></svg><svg viewBox="0 0 16 12"><path d="M8 2.2c2.4 0 4.6.9 6.3 2.5l1.2-1.3A10.8 10.8 0 0 0 8 .4 10.8 10.8 0 0 0 .5 3.4l1.2 1.3A9 9 0 0 1 8 2.2Zm0 3.6c1.4 0 2.7.5 3.7 1.5l1.2-1.3A7 7 0 0 0 8 4a7 7 0 0 0-4.9 2l1.2 1.3c1-1 2.3-1.5 3.7-1.5Zm0 3.6c.5 0 1 .2 1.3.5L8 11.6 6.7 9.9c.3-.3.8-.5 1.3-.5Z"/></svg><svg viewBox="0 0 27 13"><rect x=".5" y=".5" width="23" height="12" rx="3.5" fill="none" stroke="currentColor" opacity=".45"/><rect x="2.5" y="2.5" width="17" height="8" rx="2"/><path d="M25 4.5v4c.8-.3 1.5-1.1 1.5-2s-.7-1.7-1.5-2Z" opacity=".45"/></svg></span></div>
       <div class="sp-ledger">
         <div class="sp-hd"><i></i><div><b>Payments Ledger</b><span class="sp-u-muted">Who has paid, who still owes — one row per client.</span></div></div>
         <div class="sp-acts"><span>&#8615; Export CSV</span><span class="sp-pri">+ New proposal</span></div>
@@ -2405,9 +2452,10 @@
           <div class="sp-cols"><div><div class="sp-u-caps">Package</div>₹2,71,000</div><div><div class="sp-u-caps">Collected</div><span class="sp-ok">₹1,35,500</span></div><div><div class="sp-u-caps">Outstanding</div><span class="sp-due">₹1,35,500</span></div></div>
           <div class="sp-bar"><i style="width:50%"></i></div><div class="sp-log">+ Log payment</div></div>
       </div>
-    </div></div>
+      <span class="sp-home"></span>
+    </div></div></div>
 
-    <div class="sp-phone sp-front" aria-hidden="true"><span class="sp-island"></span><div class="sp-scr">
+    <div class="sp-phone sp-front" aria-hidden="true"><div class="sp-body"><span class="sp-island"></span><div class="sp-scr"><div class="sp-status"><span>9:41</span><span style="display:flex;gap:.35em;align-items:center"><svg viewBox="0 0 18 12"><rect x="0" y="8" width="3" height="4" rx="1"/><rect x="5" y="5.5" width="3" height="6.5" rx="1"/><rect x="10" y="3" width="3" height="9" rx="1"/><rect x="15" y="0" width="3" height="12" rx="1"/></svg><svg viewBox="0 0 16 12"><path d="M8 2.2c2.4 0 4.6.9 6.3 2.5l1.2-1.3A10.8 10.8 0 0 0 8 .4 10.8 10.8 0 0 0 .5 3.4l1.2 1.3A9 9 0 0 1 8 2.2Zm0 3.6c1.4 0 2.7.5 3.7 1.5l1.2-1.3A7 7 0 0 0 8 4a7 7 0 0 0-4.9 2l1.2 1.3c1-1 2.3-1.5 3.7-1.5Zm0 3.6c.5 0 1 .2 1.3.5L8 11.6 6.7 9.9c.3-.3.8-.5 1.3-.5Z"/></svg><svg viewBox="0 0 27 13"><rect x=".5" y=".5" width="23" height="12" rx="3.5" fill="none" stroke="currentColor" opacity=".45"/><rect x="2.5" y="2.5" width="17" height="8" rx="2"/><path d="M25 4.5v4c.8-.3 1.5-1.1 1.5-2s-.7-1.7-1.5-2Z" opacity=".45"/></svg></span></div>
       <div class="sp-col">
         <div class="sp-hd">Shooting Scheduled <span class="sp-u-muted">5 · ₹14.6L</span></div>
         <div class="sp-list">
@@ -2428,7 +2476,8 @@
               <div class="sp-price">₹2,49,000</div></div>
         </div>
       </div>
-    </div></div>
+      <span class="sp-home"></span>
+    </div></div></div>
   </div>
 
   <h2 class="sp-word" id="sp-word" aria-label="Simple"><span class="sp-w" aria-hidden="true"><span class="sp-l"><span>S</span></span><span class="sp-l"><span>I</span></span><span class="sp-l"><span>M</span></span><span class="sp-l"><span>P</span></span><span class="sp-l"><span>L</span></span><span class="sp-l"><span>E</span></span></span></h2>
